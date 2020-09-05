@@ -5,6 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     
     <data>
+        <variable
+            name="text"
+            type="String" />
         
         
     </data>
@@ -15,70 +18,50 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Signup">
+        tools:context=".Signup"
+        android:background="@color/colorPrimary">
 
-        
         <TextView
-            android:id="@+id/join_tv"
-            android:text="회원가입"
+            android:id="@+id/sign_up_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.2"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintVertical_bias="0.3"
-            android:textSize="40sp"
-            />
+            android:textColor="#fff"
+            android:text="@{text,default=`PIN번호를 입력해주세요`}"
+            android:textSize="20sp"/>
 
-        <TextView
-            android:id="@+id/phone_number"
-            android:layout_width="match_parent"
+
+        <com.andrognito.pinlockview.IndicatorDots
+            android:id="@+id/indicator_dots"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/join_tv"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="50dp"
-            android:text="전화번호"
-            android:textSize="30sp"
+            app:layout_constraintTop_toBottomOf="@id/sign_up_tv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="40dp"
             />
 
-        <EditText
-            android:id="@+id/pw"
+
+        <com.andrognito.pinlockview.PinLockView
+            android:id="@+id/pin_lock_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/phone_number"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="50dp"
-            android:hint="PIN(최대 4자리)"
-            android:maxLength="4"
-            android:inputType="number"
-            />
-
-        <EditText
-            android:id="@+id/check_pw"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/pw"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="50dp"
-            android:hint="PIN확인"
-            android:maxLength="4"
-            android:inputType="numberPassword"
-            />
-
-        <Button
-            android:id="@+id/sign_up_bt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/check_pw"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="50dp"
-            android:text="JOIN"
-
-            />
-
-
-
+            android:layout_height="0dp"
+            android:layout_marginTop="40dp"
+            android:background="#fff"
+            app:keypadButtonSize="72dp"
+            app:keypadTextColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/indicator_dots"
+            app:layout_constraintVertical_bias="1.0"
+            android:paddingTop="30dp"
+            app:pinLength="4" />
 
 
 
