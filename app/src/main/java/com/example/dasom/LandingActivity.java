@@ -1,6 +1,7 @@
 package com.example.dasom;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -53,7 +54,7 @@ public class LandingActivity extends AppIntro {
             @Override
             public void onPermissionGranted() {
                 SharedPreferenceUtil.putBoolean(LandingActivity.this, "landing_shown", true);
-                startActivity(new Intent(LandingActivity.this, LoginActivity.class));
+                startActivity(new Intent(LandingActivity.this, Signup.class));
                 finish();
             }
 

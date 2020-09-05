@@ -27,45 +27,50 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintVertical_bias="0.3"
             android:textSize="40sp"
             />
 
-        <EditText
-            android:id="@+id/id"
+        <TextView
+            android:id="@+id/phone_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/join_tv"
             android:layout_marginHorizontal="50dp"
             android:layout_marginTop="50dp"
-            android:hint="아이디"
+            android:text="전화번호"
+            android:textSize="30sp"
             />
 
         <EditText
             android:id="@+id/pw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/id"
+            app:layout_constraintTop_toBottomOf="@id/phone_number"
             android:layout_marginHorizontal="50dp"
             android:layout_marginTop="50dp"
-            android:hint="패스워드"
+            android:hint="PIN(최대 4자리)"
+            android:maxLength="4"
+            android:inputType="number"
             />
 
         <EditText
-            android:id="@+id/name"
+            android:id="@+id/check_pw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/pw"
             android:layout_marginHorizontal="50dp"
             android:layout_marginTop="50dp"
-            android:hint="이름"
+            android:hint="PIN확인"
+            android:maxLength="4"
+            android:inputType="numberPassword"
             />
 
         <Button
             android:id="@+id/sign_up_bt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/check_pw"
             android:layout_marginHorizontal="50dp"
             android:layout_marginTop="50dp"
             android:text="JOIN"
