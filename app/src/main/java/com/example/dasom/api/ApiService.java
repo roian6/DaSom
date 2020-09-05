@@ -23,8 +23,7 @@ public interface ApiService {
     @FormUrlEncoded
     Call<UserJoin> SignUp(
         @Field("id")String id,
-        @Field("password")String password,
-        @Field("username")String name
+        @Field("password")String password
     );
 
 }
