@@ -27,11 +27,14 @@ import com.example.dasom.util.UserCache;
 import java.util.Locale;
 
 public class SplashActivity extends AppCompatActivity {
+    private String phoneNumber;
 
 
     private static SharedPreferences getSharedPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
+
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,16 @@ public class SplashActivity extends AppCompatActivity {
             if (UserCache.getUser(this)!= null&&TokenCache.getToken(this)!=null){
                 Intent intent1 = new Intent(SplashActivity.this,MainActivity.class);
                 startActivity(intent1);
+            }else{
+                TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                phoneNumber = tMgr.getLine1Number();
+
+                if (phoneNumber.startsWith("+82"))
+                    phoneNumber = phoneNumber.replace("+82", "0"); // +8210xxxxyyyy 로 시작되는 번호
+
+                phoneNumber = PhoneNumberUtils.formatNumber(phoneNumber, Locale.getDefault().getCountry());
+
+                Check(phoneNumber);
             }
 
             boolean isLandingShown = getSharedPreferences(this).getBoolean("landing_shown", false);
@@ -61,6 +74,26 @@ public class SplashActivity extends AppCompatActivity {
 
             finish();
         }, 2000); //wait 2 sec
+    }
+
+    private void Check(String phoneNumber){
+        NetworkHelper.getInstance().CheckID(phoneNumber).enqueue(new Callback<CheckId>() {
+            @Override
+            public void onResponse(Call<CheckId> call, Response<CheckId> response) {
+
+                if (response.isSuccessful()){
+                    startActivity(new Intent(SplashActivity.this,SignupActivity.class));
+                    finish();
+                }else{
+                    startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CheckId> call, Throwable t) {
+            }
+        });
     }
 
 }

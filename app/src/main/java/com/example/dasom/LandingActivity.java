@@ -62,42 +62,13 @@ public class LandingActivity extends AppIntro {
         finishLanding();
     }
 
-    private void Check(String phoneNumber){
-        NetworkHelper.getInstance().CheckID(phoneNumber).enqueue(new Callback<CheckId>() {
-            @Override
-            public void onResponse(Call<CheckId> call, Response<CheckId> response) {
 
-                if (response.isSuccessful()){
-                    startActivity(new Intent(LandingActivity.this,SignupActivity.class));
-                    finish();
-                }else{
-                    startActivity(new Intent(LandingActivity.this,LoginActivity.class));
-                    finish();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CheckId> call, Throwable t) {
-            }
-        });
-    }
-
-    @SuppressLint("MissingPermission")
     private void finishLanding() {
         PermissionListener listener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
                 SharedPreferenceUtil.putBoolean(LandingActivity.this, "landing_shown", true);
 
-                TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                phoneNumber = tMgr.getLine1Number();
-
-                if (phoneNumber.startsWith("+82"))
-                    phoneNumber = phoneNumber.replace("+82", "0"); // +8210xxxxyyyy 로 시작되는 번호
-
-                phoneNumber = PhoneNumberUtils.formatNumber(phoneNumber, Locale.getDefault().getCountry());
-
-                Check(phoneNumber);
 
             }
 
