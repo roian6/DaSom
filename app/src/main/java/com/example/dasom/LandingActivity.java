@@ -54,8 +54,9 @@ public class LandingActivity extends AppIntro {
             @Override
             public void onPermissionGranted() {
                 SharedPreferenceUtil.putBoolean(LandingActivity.this, "landing_shown", true);
-                startActivity(new Intent(LandingActivity.this, Signup.class));
+                startActivity(new Intent(LandingActivity.this,Signup.class));
                 finish();
+
             }
 
             @Override

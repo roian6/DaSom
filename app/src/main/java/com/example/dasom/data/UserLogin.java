@@ -2,18 +2,10 @@ package com.example.dasom.data;
 
 public class UserLogin {
 
-    int status;
-    String message;
-    String mes;
-    boolean success;
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
+    private int status;
+    private String message;
+    private String accessToken;
+    private boolean success;
 
     public int getStatus() {
         return status;
@@ -31,18 +23,26 @@ public class UserLogin {
         this.message = message;
     }
 
-    public String getMes() {
-        return mes;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setMes(String mes) {
-        this.mes = mes;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
-    public UserLogin(int status, String message, String mes, boolean success) {
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public UserLogin(int status, String message, String accessToken, boolean success) {
         this.status = status;
         this.message = message;
-        this.mes = mes;
+        this.accessToken = accessToken;
         this.success = success;
     }
 }

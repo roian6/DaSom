@@ -25,6 +25,7 @@ import com.example.dasom.data.UserJoin;
 import com.example.dasom.data.UserLogin;
 import com.example.dasom.databinding.ActivityMainBinding;
 import com.example.dasom.databinding.ActivitySignupBinding;
+import com.example.dasom.util.TokenCache;
 
 public class Signup extends AppCompatActivity {
 
@@ -34,7 +35,6 @@ public class Signup extends AppCompatActivity {
     PinLockView mPinLockView;
     IndicatorDots mIndicatorDots;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,21 +42,18 @@ public class Signup extends AppCompatActivity {
         mIndicatorDots = (IndicatorDots) findViewById(R.id.indicator_dots);
         mPinLockView = (PinLockView) findViewById(R.id.pin_lock_view);
 
-
         binding.setText("PIN번호를 입력해주세요");
 
-        //전화번호
-        phoneNumber = "01024469844";
 
+
+        //전화번호
+        phoneNumber = "13020052313";
 
         mPinLockView.attachIndicatorDots(mIndicatorDots);
         mPinLockView.setPinLockListener(mPinLockListener);
 
-
-
-
-
     }
+
     private PinLockListener mPinLockListener = new PinLockListener() {
         @Override
         public void onComplete(String pin) {
@@ -67,36 +64,33 @@ public class Signup extends AppCompatActivity {
                     NetworkHelper.getInstance().SignUp(phoneNumber,pw).enqueue(new Callback<UserJoin>() {
                         @Override
                         public void onResponse(Call<UserJoin> call, Response<UserJoin> response) {
-                            Log.e("asdd",response.code()+"");
-                            UserJoin userJoin = response.body();
-                            Log.e("asd",userJoin.getMessage());
-                            Intent intent1 = new Intent(Signup.this,LoginActivity.class);
-                            startActivity(intent1);
 
+                            Log.e("asd",response.code()+"");
+                            UserJoin userJoin = response.body();
+                            if (response.code()==200){
+
+                                Log.e("asd",userJoin.getMessage());
+                                Intent intent1 = new Intent(Signup.this,LoginActivity.class);
+                                startActivity(intent1);
+                            }
 
                         }
                         @Override
                         public void onFailure(Call<UserJoin> call, Throwable t) {
-                            Log.e("asdd","실패");
+                            Log.e("asd","실패");
                         }
                     });
+
                 }else{
                     Toast.makeText(Signup.this, "비밀번호 틀림", Toast.LENGTH_SHORT).show();
                     binding.setText("PIN번호를 다시 입력해주세요");
                     mPinLockView.resetPinLockView();
                 }
-
-
-
             }else{
                 pw = pin;
                 binding.setText("PIN번호를 다시 입력해주세요");
                 mPinLockView.resetPinLockView();
             }
-
-
-
-
         }
 
         @Override
