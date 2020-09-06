@@ -1,6 +1,7 @@
 package com.example.dasom;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -9,10 +10,12 @@ import retrofit2.Response;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.andrognito.pinlockview.IndicatorDots;
@@ -20,7 +23,10 @@ import com.andrognito.pinlockview.PinLockListener;
 import com.andrognito.pinlockview.PinLockView;
 import com.example.dasom.api.NetworkHelper;
 import com.example.dasom.data.UserJoin;
+import com.example.dasom.data.UserLogin;
+import com.example.dasom.databinding.ActivityMainBinding;
 import com.example.dasom.databinding.ActivitySignupBinding;
+import com.example.dasom.util.TokenCache;
 
 import java.util.Locale;
 
@@ -32,13 +38,14 @@ public class SignupActivity extends AppCompatActivity {
     PinLockView mPinLockView;
     IndicatorDots mIndicatorDots;
 
-    @SuppressLint("MissingPermission")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signup);
         mIndicatorDots = (IndicatorDots) findViewById(R.id.indicator_dots);
         mPinLockView = (PinLockView) findViewById(R.id.pin_lock_view);
+
 
         binding.setText("PIN번호를 입력해주세요");
 
@@ -64,17 +71,20 @@ public class SignupActivity extends AppCompatActivity {
                     NetworkHelper.getInstance().SignUp(phoneNumber,pw).enqueue(new Callback<UserJoin>() {
                         @Override
                         public void onResponse(Call<UserJoin> call, Response<UserJoin> response) {
-                            Log.e("asdd",response.code()+"");
+
+                            Log.e("asd",response.code()+"");
                             UserJoin userJoin = response.body();
-                            Log.e("asd",userJoin.getMessage());
-                            Intent intent1 = new Intent(SignupActivity.this,LoginActivity.class);
-                            startActivity(intent1);
+                            if (response.code()==200){
+
+                                Log.e("asd",userJoin.getMessage());
+                                Intent intent1 = new Intent(Signup.this,LoginActivity.class);
+                                startActivity(intent1);
+                            }
 
                         }
                         @Override
                         public void onFailure(Call<UserJoin> call, Throwable t) {
-                            t.printStackTrace();
-                            Log.e("asdd","실패");
+                            Log.e("asd","실패");
                         }
                     });
                 }else{

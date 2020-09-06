@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.dasom.util.SharedPreferenceUtil;
+import com.example.dasom.util.TokenCache;
 import com.example.dasom.util.UserCache;
 
 public class SplashActivity extends AppCompatActivity {
@@ -20,10 +22,19 @@ public class SplashActivity extends AppCompatActivity {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+
+        if (UserCache.getUser(this)!= null&&TokenCache.getToken(this)!=null){
+            Intent intent1 = new Intent(SplashActivity.this,MainActivity.class);
+            startActivity(intent1);
+        }
+
+
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             boolean isLandingShown = getSharedPreferences(this).getBoolean("landing_shown", false);

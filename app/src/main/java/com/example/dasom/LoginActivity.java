@@ -22,6 +22,8 @@ import com.example.dasom.api.NetworkHelper;
 import com.example.dasom.data.UserJoin;
 import com.example.dasom.data.UserLogin;
 import com.example.dasom.databinding.ActivityLoginBinding;
+import com.example.dasom.util.TokenCache;
+import com.example.dasom.util.UserCache;
 
 import java.util.Locale;
 
@@ -32,12 +34,14 @@ public class LoginActivity extends AppCompatActivity {
     IndicatorDots mIndicatorDots;
     private ActivityLoginBinding binding;
     private final static String TAG = "asdasd";
+    private Context mContext;
 
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+        mContext = getApplicationContext();
         binding.setActivity(this);
         mIndicatorDots = (IndicatorDots) findViewById(R.id.indicator_dots);
         mPinLockView = (PinLockView) findViewById(R.id.pin_lock_view);
@@ -70,10 +74,17 @@ public class LoginActivity extends AppCompatActivity {
 
                     UserLogin userLogin = response.body();
                     Log.e("asd",response.code()+"");
-                    Log.e("asd",userLogin.getMessage());
-                    login();
 
-                }
+                    if (response.code()==200){
+                        Log.e("asd",userLogin.getMessage());
+                        TokenCache.setToken(mContext,userLogin.getAccessToken());
+                        UserCache.setUser(mContext,id);
+                        Log.e("asd",TokenCache.getToken(mContext));
+                        Log.e("asdd",UserCache.getUser(mContext));
+                        login();
+                    }else{
+                        Toast.makeText(mContext, "비밀번호가 틀렸습니다", Toast.LENGTH_SHORT).show();
+                    }
 
                 @Override
                 public void onFailure(Call<UserLogin> call, Throwable t) {
