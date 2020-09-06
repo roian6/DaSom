@@ -1,36 +1,16 @@
 package com.example.dasom;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.telephony.PhoneNumberUtils;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import com.example.dasom.api.NetworkHelper;
-import com.example.dasom.data.CheckId;
 import com.example.dasom.fragment.LandingFragment;
 import com.example.dasom.util.SharedPreferenceUtil;
 import com.github.paolorotolo.appintro.AppIntro;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
-
-import java.util.List;
-import java.util.Locale;
 
 public class LandingActivity extends AppIntro {
-
-    private int check;
-    private String phoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,27 +44,11 @@ public class LandingActivity extends AppIntro {
 
 
     private void finishLanding() {
-        PermissionListener listener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                SharedPreferenceUtil.putBoolean(LandingActivity.this, "landing_shown", true);
+        SharedPreferenceUtil.putBoolean(LandingActivity.this, "landing_shown", true);
 
+        boolean isRegistered = getIntent().getBooleanExtra("is_registered", false);
+        startActivity(new Intent(LandingActivity.this,
+                isRegistered ? LoginActivity.class : SignupActivity.class));
 
-            }
-
-            @Override
-            public void onPermissionDenied(List<String> deniedPermissions) {
-                finish();
-            }
-        };
-
-        TedPermission.with(this)
-                .setPermissionListener(listener)
-                .setDeniedMessage("권한에 동의해 주세요.")
-                .setPermissions(Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_PHONE_STATE)
-                .check();
     }
 }
