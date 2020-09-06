@@ -1,7 +1,6 @@
 package com.example.dasom;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -54,7 +53,7 @@ public class LandingActivity extends AppIntro {
             @Override
             public void onPermissionGranted() {
                 SharedPreferenceUtil.putBoolean(LandingActivity.this, "landing_shown", true);
-                startActivity(new Intent(LandingActivity.this, Signup.class));
+                startActivity(new Intent(LandingActivity.this, SignupActivity.class));
                 finish();
             }
 
@@ -69,7 +68,8 @@ public class LandingActivity extends AppIntro {
                 .setDeniedMessage("권한에 동의해 주세요.")
                 .setPermissions(Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE)
                 .check();
     }
 }

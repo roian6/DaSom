@@ -6,8 +6,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 
@@ -19,6 +23,8 @@ import com.example.dasom.data.UserJoin;
 import com.example.dasom.data.UserLogin;
 import com.example.dasom.databinding.ActivityLoginBinding;
 
+import java.util.Locale;
+
 public class LoginActivity extends AppCompatActivity {
 
     private String id,pw;
@@ -27,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private final static String TAG = "asdasd";
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +42,16 @@ public class LoginActivity extends AppCompatActivity {
         mIndicatorDots = (IndicatorDots) findViewById(R.id.indicator_dots);
         mPinLockView = (PinLockView) findViewById(R.id.pin_lock_view);
 
-        //전화번호 넣어줘
-        id = "01024169913";
+        TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String phoneNumber = tMgr.getLine1Number();
 
+        if (phoneNumber.startsWith("+82"))
+            phoneNumber = phoneNumber.replace("+82", "0"); // +8210xxxxyyyy 로 시작되는 번호
+
+        phoneNumber = PhoneNumberUtils.formatNumber(phoneNumber, Locale.getDefault().getCountry());
+
+        //전화번호 넣어줘
+        id = phoneNumber;
 
         mPinLockView.attachIndicatorDots(mIndicatorDots);
         mPinLockView.setPinLockListener(mPinLockListener);

@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkHelper {
 
-    final static String url = "http://unitaemin.run.goorm.io/dasom/";
+    final static String url = "https://unitaemin.run.goorm.io/dasom/";
     //final static int port = 8000;
 
 
