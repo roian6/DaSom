@@ -38,7 +38,7 @@ public class SignupActivity extends AppCompatActivity {
     PinLockView mPinLockView;
     IndicatorDots mIndicatorDots;
 
-
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +77,7 @@ public class SignupActivity extends AppCompatActivity {
                             if (response.code()==200){
 
                                 Log.e("asd",userJoin.getMessage());
-                                Intent intent1 = new Intent(Signup.this,LoginActivity.class);
+                                Intent intent1 = new Intent(SignupActivity.this,LoginActivity.class);
                                 startActivity(intent1);
                             }
 
@@ -92,7 +92,6 @@ public class SignupActivity extends AppCompatActivity {
                     binding.setText("PIN번호를 다시 입력해주세요");
                     mPinLockView.resetPinLockView();
                 }
-
 
 
             }else{

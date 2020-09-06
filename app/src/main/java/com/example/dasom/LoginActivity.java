@@ -14,6 +14,7 @@ import android.telephony.PhoneNumberUtils;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
@@ -73,18 +74,19 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<UserLogin> call, Response<UserLogin> response) {
 
                     UserLogin userLogin = response.body();
-                    Log.e("asd",response.code()+"");
+                    Log.e("asd", response.code() + "");
 
-                    if (response.code()==200){
-                        Log.e("asd",userLogin.getMessage());
-                        TokenCache.setToken(mContext,userLogin.getAccessToken());
-                        UserCache.setUser(mContext,id);
-                        Log.e("asd",TokenCache.getToken(mContext));
-                        Log.e("asdd",UserCache.getUser(mContext));
+                    if (response.code() == 200) {
+                        Log.e("asd", userLogin.getMessage());
+                        TokenCache.setToken(mContext, userLogin.getAccessToken());
+                        UserCache.setUser(mContext, id);
+                        Log.e("asd", TokenCache.getToken(mContext));
+                        Log.e("asdd", UserCache.getUser(mContext));
                         login();
-                    }else{
+                    } else {
                         Toast.makeText(mContext, "비밀번호가 틀렸습니다", Toast.LENGTH_SHORT).show();
                     }
+                }
 
                 @Override
                 public void onFailure(Call<UserLogin> call, Throwable t) {
@@ -92,8 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
-
-        }
+            }
 
         @Override
         public void onEmpty() {
