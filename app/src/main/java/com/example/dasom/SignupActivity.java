@@ -72,11 +72,8 @@ public class SignupActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<UserJoin> call, Response<UserJoin> response) {
 
-                            Log.e("asd",response.code()+"");
                             UserJoin userJoin = response.body();
                             if (response.code()==200){
-
-                                Log.e("asd",userJoin.getMessage());
                                 Intent intent1 = new Intent(SignupActivity.this,LoginActivity.class);
                                 startActivity(intent1);
                             }
@@ -101,8 +98,6 @@ public class SignupActivity extends AppCompatActivity {
             }
 
 
-
-
         }
 
         @Override
@@ -112,7 +107,7 @@ public class SignupActivity extends AppCompatActivity {
 
         @Override
         public void onPinChange(int pinLength, String intermediatePin) {
-            Log.e(TAG, "Pin changed, new length " + pinLength + " with intermediate pin " + intermediatePin);
+
         }
     };
 }

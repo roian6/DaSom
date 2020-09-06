@@ -30,7 +30,7 @@ import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private String id,pw;
+    private String id;
     PinLockView mPinLockView;
     IndicatorDots mIndicatorDots;
     private ActivityLoginBinding binding;
@@ -54,14 +54,11 @@ public class LoginActivity extends AppCompatActivity {
             phoneNumber = phoneNumber.replace("+82", "0"); // +8210xxxxyyyy 로 시작되는 번호
 
         phoneNumber = PhoneNumberUtils.formatNumber(phoneNumber, Locale.getDefault().getCountry());
-
         //전화번호 넣어줘
         id = phoneNumber;
 
         mPinLockView.attachIndicatorDots(mIndicatorDots);
         mPinLockView.setPinLockListener(mPinLockListener);
-
-
 
     }
     private PinLockListener mPinLockListener = new PinLockListener() {
@@ -103,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void onPinChange(int pinLength, String intermediatePin) {
-            Log.e(TAG, "Pin changed, new length " + pinLength + " with intermediate pin " + intermediatePin);
+
         }
     };
 
