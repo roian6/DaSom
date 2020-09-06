@@ -11,17 +11,17 @@ public class TokenCache {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public static void setToken(Context context, String json) {
+    public static void setToken(Context context, String token) {
         SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-        editor.putString("token_json", json).apply();
+        editor.putString("token", token).apply();
     }
 
     public static String getToken(Context context) {
+        String token = getSharedPreferences(context).getString("token", "");
+        return token == null || token.isEmpty() ? null : token;
+    }
 
-        try {
-            return getSharedPreferences(context).getString("token_json", "");
-        } catch (Exception e) {
-            return null;
-        }
+    public static void clear(Context context) {
+        SharedPreferenceUtil.putString(context, "token", null);
     }
 }

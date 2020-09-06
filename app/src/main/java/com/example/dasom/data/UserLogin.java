@@ -7,6 +7,9 @@ public class UserLogin {
     private String accessToken;
     private boolean success;
 
+    public UserLogin() {
+    }
+
     public int getStatus() {
         return status;
     }

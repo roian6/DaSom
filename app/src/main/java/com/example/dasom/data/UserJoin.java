@@ -1,10 +1,12 @@
 package com.example.dasom.data;
 
 public class UserJoin {
-    int status;
-    String message;
-    String mes;
+
+    private int status;
+    private String message;
     boolean success;
+
+    public UserJoin(){}
 
     public int getStatus() {
         return status;
@@ -22,14 +24,6 @@ public class UserJoin {
         this.message = message;
     }
 
-    public String getMes() {
-        return mes;
-    }
-
-    public void setMes(String mes) {
-        this.mes = mes;
-    }
-
     public boolean isSuccess() {
         return success;
     }
@@ -41,7 +35,6 @@ public class UserJoin {
     public UserJoin(int status, String message, String mes, boolean success) {
         this.status = status;
         this.message = message;
-        this.mes = mes;
         this.success = success;
     }
 }
