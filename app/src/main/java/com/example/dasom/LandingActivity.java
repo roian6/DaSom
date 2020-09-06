@@ -54,9 +54,8 @@ public class LandingActivity extends AppIntro {
             @Override
             public void onPermissionGranted() {
                 SharedPreferenceUtil.putBoolean(LandingActivity.this, "landing_shown", true);
-                startActivity(new Intent(LandingActivity.this,Signup.class));
+                startActivity(new Intent(LandingActivity.this, SignupActivity.class));
                 finish();
-
             }
 
             @Override
@@ -70,7 +69,8 @@ public class LandingActivity extends AppIntro {
                 .setDeniedMessage("권한에 동의해 주세요.")
                 .setPermissions(Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE)
                 .check();
     }
 }

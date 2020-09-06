@@ -6,30 +6,37 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
+import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
 import com.andrognito.pinlockview.PinLockView;
 import com.example.dasom.api.NetworkHelper;
+import com.example.dasom.data.UserJoin;
 import com.example.dasom.data.UserLogin;
 import com.example.dasom.databinding.ActivityLoginBinding;
 import com.example.dasom.util.TokenCache;
 import com.example.dasom.util.UserCache;
 
+import java.util.Locale;
+
 public class LoginActivity extends AppCompatActivity {
 
-    private String id;
+    private String id,pw;
     PinLockView mPinLockView;
     IndicatorDots mIndicatorDots;
     private ActivityLoginBinding binding;
     private final static String TAG = "asdasd";
     private Context mContext;
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +45,22 @@ public class LoginActivity extends AppCompatActivity {
         binding.setActivity(this);
         mIndicatorDots = (IndicatorDots) findViewById(R.id.indicator_dots);
         mPinLockView = (PinLockView) findViewById(R.id.pin_lock_view);
+
+        TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String phoneNumber = tMgr.getLine1Number();
+
+        if (phoneNumber.startsWith("+82"))
+            phoneNumber = phoneNumber.replace("+82", "0"); // +8210xxxxyyyy 로 시작되는 번호
+
+        phoneNumber = PhoneNumberUtils.formatNumber(phoneNumber, Locale.getDefault().getCountry());
+
         //전화번호 넣어줘
-        id = "12020082511";
+        id = phoneNumber;
 
         mPinLockView.attachIndicatorDots(mIndicatorDots);
         mPinLockView.setPinLockListener(mPinLockListener);
+
+
 
     }
     private PinLockListener mPinLockListener = new PinLockListener() {
@@ -53,8 +71,6 @@ public class LoginActivity extends AppCompatActivity {
             NetworkHelper.getInstance().SignIn(id,pin).enqueue(new Callback<UserLogin>() {
                 @Override
                 public void onResponse(Call<UserLogin> call, Response<UserLogin> response) {
-
-
 
                     UserLogin userLogin = response.body();
                     Log.e("asd",response.code()+"");
@@ -70,9 +86,6 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(mContext, "비밀번호가 틀렸습니다", Toast.LENGTH_SHORT).show();
                     }
 
-
-
-                }
                 @Override
                 public void onFailure(Call<UserLogin> call, Throwable t) {
 
