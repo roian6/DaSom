@@ -7,17 +7,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkHelper {
 
-    final static String url = "https://unitaemin.run.goorm.io/dasom/";
-    //final static int port = 8000;
-
-
     private static Retrofit retrofit;
 
+    // TODO: replace with synchronized singleton
 
-    public static ApiService getInstance() {
+    public static ApiService getInstance(String baseUrl) {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(url)
+                    .baseUrl(baseUrl)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

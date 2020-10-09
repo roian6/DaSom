@@ -1,63 +1,131 @@
 package com.example.dasom;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.os.Bundle;
 
 import com.example.dasom.adapter.ChatAdapter;
 import com.example.dasom.databinding.ActivityChatBinding;
 import com.example.dasom.model.ChatModel;
 import com.example.dasom.util.LinearLayoutManagerWrapper;
-import com.example.dasom.util.UserCache;
+import com.example.dasom.util.TokenCache;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private ObservableArrayList<ChatModel> items = new ObservableArrayList<>();
+    private VoiceHelper voiceHelper;
+    private ChatNetwork chatNetwork;
+
     private ActivityChatBinding binding;
+    private ChatActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_chat);
-        binding.setActivity(this);
-        binding.setItems(items);
-        binding.setIsListening(false);
-        binding.setIsResult(false);
+        binding.setLifecycleOwner(this);
+        binding.setClickHandler(new ChatActivityClickHandler());
 
-        LinearLayoutManagerWrapper wrapper = new LinearLayoutManagerWrapper(
-                this, LinearLayoutManager.VERTICAL, false);
-        binding.recyclerView.setLayoutManager(wrapper);
+        viewModel = ViewModelProviders.of(this).get(ChatActivityViewModel.class);
+        binding.setViewModel(viewModel);
 
-        ChatAdapter adapter = new ChatAdapter();
-        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManagerWrapper(
+                this, LinearLayoutManager.VERTICAL, false));
+        binding.recyclerView.setAdapter(new ChatAdapter());
 
-        ChatModel model1 = new ChatModel();
-        model1.setText("오늘은 무슨 일들이 있었나요? 일기에 남기고 싶은 일이 있나요?");
-        model1.setMine(false);
-        items.add(model1);
+        chatNetwork = new ChatNetwork(getString(R.string.base_url), TokenCache.getToken(this));
 
-        ChatModel model2 = new ChatModel();
-        model2.setText("오늘은 점심에 밥을 먹었어");
-        model2.setMine(true);
-        items.add(model2);
+        voiceHelper = new VoiceHelper(this);
+        voiceHelper.setupVoice(isSuccessful -> {
+            if (!isSuccessful) {
+                Toast.makeText(this, R.string.error_chat_voice, Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
+            viewModel.isVoiceSet.setValue(true);
+        });
+
+        voiceHelper.setupRecognitionListener(
+                () -> viewModel.isListening.setValue(false),
+                result -> {
+                    viewModel.message.setValue(result);
+                    viewModel.onResult.setValue(true);
+                },
+                e -> Toast.makeText(this, R.string.error_voice_recognize, Toast.LENGTH_SHORT).show());
+
+        viewModel.chatModels.add(new ChatModel(getString(R.string.chat_intro), false));
+        viewModel.isVoiceSet.observe(this, enabled -> {
+            if (enabled) voiceHelper.startTTS(getString(R.string.chat_intro_short));
+        });
 
     }
 
-    public void startListening(){
-        binding.setIsListening(true);
+    public class ChatActivityClickHandler {
+        public void btnMiddleClick() {
+            if (viewModel.onResult.getValue()) sendChat(viewModel.message.getValue());
+            else startListening();
+        }
+
+        public void btnRetryClick() {
+            viewModel.onResult.setValue(false);
+            startListening();
+        }
+
+        public void btnStopClick() {
+            stopListening();
+        }
     }
 
-    public void stopListening(){
-        binding.setIsListening(false);
-        binding.setIsResult(true);
+    public void startListening() {
+        voiceHelper.startSTT();
+        viewModel.isListening.setValue(true);
     }
 
-    public void sendMessage(){
-        binding.setIsResult(false);
+    public void stopListening() {
+        voiceHelper.stopSTT();
+        viewModel.isListening.setValue(false);
     }
 
+    private void sendChat(String message) {
+        viewModel.chatModels.add(new ChatModel(viewModel.message.getValue(), true));
+        binding.recyclerView.smoothScrollToPosition(viewModel.chatModels.size() - 1);
 
+        viewModel.message.setValue("");
+        viewModel.onResult.setValue(false);
+
+        chatNetwork.sendChat(createChatModel(message), body -> {
+            viewModel.chatModels.add(new ChatModel(body));
+            binding.recyclerView.smoothScrollToPosition(viewModel.chatModels.size() - 1);
+            voiceHelper.startTTS(body.getText(), () -> performAction(body.getAction()));
+        }, errorMsg -> Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show());
+    }
+
+    private ChatModel createChatModel(String message) {
+        return new ChatModel(DateTimeUtil.getDate(), DateTimeUtil.getTime(), message);
+    }
+
+    private void performAction(String action) {
+        runOnUiThread(() -> {
+            switch (action) {
+                case "start":
+                    break;
+                case "read":
+                    break;
+                case "continue":
+                    break;
+                case "stop":
+                    break;
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        voiceHelper.destroy();
+    }
 }

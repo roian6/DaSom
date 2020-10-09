@@ -58,7 +58,7 @@ public class SignupActivity extends AppCompatActivity {
                 return;
             }
 
-            NetworkHelper.getInstance().SignUp(PhoneUtil.getPhone(SignupActivity.this), pw)
+            NetworkHelper.getInstance(getString(R.string.base_url)).SignUp(PhoneUtil.getPhone(SignupActivity.this), pw)
                     .enqueue(new Callback<UserJoin>() {
                         @Override
                         public void onResponse(@NotNull Call<UserJoin> call, @NotNull Response<UserJoin> response) {

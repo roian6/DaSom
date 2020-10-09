@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,29 +37,26 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            PermissionListener listener = new PermissionListener() {
-                @Override
-                public void onPermissionGranted() {
-                    findLoginMethod();
-                }
+        PermissionListener listener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                new Handler(getMainLooper()).postDelayed(() -> findLoginMethod(), 2000);
+            }
 
-                @Override
-                public void onPermissionDenied(List<String> deniedPermissions) {
-                    finish();
-                }
-            };
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                finish();
+            }
+        };
 
-            TedPermission.with(this)
-                    .setPermissionListener(listener)
-                    .setDeniedMessage("권한에 동의해 주세요.")
-                    .setPermissions(Manifest.permission.RECORD_AUDIO,
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.READ_PHONE_STATE)
-                    .check();
-
-        }, 2000); //wait 2 sec
+        TedPermission.with(this)
+                .setPermissionListener(listener)
+                .setDeniedMessage("권한에 동의해 주세요.")
+                .setPermissions(Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE)
+                .check();
     }
 
     private void findLoginMethod() {
@@ -74,7 +69,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkRegistered(String phoneNumber, Context context) {
-        NetworkHelper.getInstance().CheckID(phoneNumber).enqueue(new Callback<CheckId>() {
+        NetworkHelper.getInstance(getString(R.string.base_url)).CheckID(phoneNumber).enqueue(new Callback<CheckId>() {
             @Override
             public void onResponse(@NotNull Call<CheckId> call, @NotNull Response<CheckId> response) {
                 boolean isLandingShown = getSharedPreferences(context).getBoolean("landing_shown", false);
