@@ -41,6 +41,8 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialTheme" />
+        <receiver android:name=".receiver.AlarmReceiver"/>
     </application>
+
 
 </manifest>
