@@ -1,15 +1,38 @@
 package com.example.dasom.model;
 
+import com.example.dasom.data.ChatBody;
+import com.google.gson.annotations.SerializedName;
+
 public class ChatModel {
 
-    private String date, time, text;
+    private String date;
+    private String time;
+    private String text;
     private Boolean isMine;
 
-    public ChatModel(){}
+    public ChatModel() {
+    }
+
+    public ChatModel(String date, String time, String text) {
+        this.date = date;
+        this.time = time;
+        this.text = text;
+        isMine = true;
+    }
 
     public ChatModel(String date, String time, String text, Boolean isMine) {
         this.date = date;
         this.time = time;
+        this.text = text;
+        this.isMine = isMine;
+    }
+
+    public ChatModel(ChatBody body) {
+        text = body.getText();
+        isMine = false;
+    }
+
+    public ChatModel(String text, Boolean isMine){
         this.text = text;
         this.isMine = isMine;
     }

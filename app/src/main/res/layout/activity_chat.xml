@@ -5,42 +5,29 @@
 
     <data>
 
-        <import type="androidx.databinding.ObservableArrayList" />
-
-        <import type="com.example.dasom.model.ChatModel" />
+        <variable
+            name="viewModel"
+            type="com.example.dasom.ChatActivityViewModel" />
 
         <variable
-            name="activity"
-            type="com.example.dasom.ChatActivity" />
-
-        <variable
-            name="items"
-            type="ObservableArrayList&lt;ChatModel&gt;" />
-
-        <variable
-            name="isListening"
-            type="Boolean" />
-
-        <variable
-            name="isResult"
-            type="Boolean" />
-
-        <variable
-            name="question"
-            type="String" />
+            name="clickHandler"
+            type="com.example.dasom.ChatActivity.ChatActivityClickHandler" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#80323232">
+        android:background="#80323232"
+        app:bindInvisibility="@{viewModel.isVoiceSet}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
             android:background="@drawable/round_box_top"
+            app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -52,9 +39,10 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:visibility="@{!isListening}"
-                app:chatItem="@{items}"
+                android:layout_marginBottom="16dp"
+                android:paddingHorizontal="16dp"
+                android:visibility="@{!viewModel.isListening}"
+                app:chatItem="@{viewModel.chatModels}"
                 app:layout_constrainedHeight="true"
                 app:layout_constraintBottom_toTopOf="@+id/textView3"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -72,16 +60,15 @@
                 android:fontFamily="@font/apple_sd_gothic_neo_r"
                 android:gravity="center"
                 android:padding="16dp"
-                android:text="지금 점심으로 매콤크림파스타 먹고 있어"
+                android:text="@{viewModel.message}"
                 android:textColor="@color/materialGray7"
                 android:textSize="18sp"
-                android:visibility="@{!isListening&amp;&amp;isResult}"
+                android:visibility="@{!viewModel.isListening&amp;&amp;viewModel.onResult}"
                 app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
                 app:layout_constraintEnd_toEndOf="@+id/imageView5"
                 app:layout_constraintStart_toStartOf="@+id/imageView4" />
 
             <ImageView
-                android:onClick="@{()->isResult?activity.sendMessage():activity.startListening()}"
                 android:id="@+id/floatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,9 +76,10 @@
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/colorPrimary"
                 android:elevation="4dp"
+                android:onClick="@{()->clickHandler.btnMiddleClick()}"
                 android:padding="16dp"
-                android:src="@{isResult?@drawable/ic_baseline_check_24:@drawable/ic_baseline_mic_24, default=@drawable/ic_baseline_mic_24}"
-                android:visibility="@{!isListening}"
+                android:src="@{viewModel.onResult?@drawable/ic_baseline_check_24:@drawable/ic_baseline_mic_24, default=@drawable/ic_baseline_mic_24}"
+                android:visibility="@{!viewModel.isListening}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +94,7 @@
                 android:elevation="4dp"
                 android:padding="16dp"
                 android:src="@drawable/ic_baseline_photo_camera_24"
-                android:visibility="@{!isListening&amp;&amp;isResult}"
+                android:visibility="@{!viewModel.isListening&amp;&amp;viewModel.onResult}"
                 app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
                 app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
                 app:layout_constraintStart_toStartOf="parent"
@@ -120,9 +108,10 @@
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/materialGray1"
                 android:elevation="4dp"
+                android:onClick="@{()->clickHandler.btnRetryClick()}"
                 android:padding="16dp"
                 android:src="@drawable/ic_baseline_refresh_24"
-                android:visibility="@{!isListening&amp;&amp;isResult}"
+                android:visibility="@{!viewModel.isListening&amp;&amp;viewModel.onResult}"
                 app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/floatingActionButton"
@@ -135,10 +124,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/apple_sd_gothic_neo_h"
-                android:text="듣고 있습니다..."
+                android:gravity="center"
+                android:text="@string/chat_what_to_write"
                 android:textColor="@color/materialGray7"
                 android:textSize="20sp"
-                android:visibility="@{isListening, default=gone}"
+                android:visibility="@{!!viewModel.isListening, default=gone}"
                 app:layout_constraintBottom_toTopOf="@+id/lottieAnimationView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -147,12 +137,12 @@
 
 
             <com.airbnb.lottie.LottieAnimationView
-                android:onClick="@{()->activity.stopListening()}"
                 android:id="@+id/lottieAnimationView"
                 android:layout_width="108dp"
                 android:layout_height="108dp"
                 android:layout_margin="16dp"
-                android:visibility="@{isListening, default=gone}"
+                android:onClick="@{()->clickHandler.btnStopClick()}"
+                android:visibility="@{!!viewModel.isListening, default=gone}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -162,11 +152,11 @@
                 app:lottie_rawRes="@raw/wave" />
 
             <ImageView
-                android:visibility="@{isListening, default=gone}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_mic_24"
                 android:translationZ="4dp"
+                android:visibility="@{!!viewModel.isListening, default=gone}"
                 app:layout_constraintBottom_toBottomOf="@+id/lottieAnimationView"
                 app:layout_constraintEnd_toEndOf="@+id/lottieAnimationView"
                 app:layout_constraintStart_toStartOf="@+id/lottieAnimationView"

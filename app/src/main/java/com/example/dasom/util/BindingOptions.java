@@ -13,8 +13,13 @@ import com.example.dasom.model.ChatModel;
 public class BindingOptions {
 
     @BindingConversion
-    public static int convertBooleanToVisibility(boolean visible) {
+    public static int convertBooleanToVisibility(Boolean visible) {
         return visible ? View.VISIBLE : View.GONE;
+    }
+
+    @BindingAdapter("bindInvisibility")
+    public static void bindInvisibility(View v, Boolean b) {
+        v.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
     }
 
     @BindingAdapter("chatItem")

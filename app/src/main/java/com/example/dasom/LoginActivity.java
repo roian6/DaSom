@@ -36,8 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         binding.setActivity(this);
 
-        IndicatorDots mIndicatorDots = (IndicatorDots) findViewById(R.id.indicator_dots);
-        PinLockView mPinLockView = (PinLockView) findViewById(R.id.pin_lock_view);
+        IndicatorDots mIndicatorDots = findViewById(R.id.indicator_dots);
+        PinLockView mPinLockView = findViewById(R.id.pin_lock_view);
 
         mPinLockView.attachIndicatorDots(mIndicatorDots);
         mPinLockView.setPinLockListener(mPinLockListener);
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private PinLockListener mPinLockListener = new PinLockListener() {
         @Override
         public void onComplete(String pin) {
-            NetworkHelper.getInstance().SignIn(PhoneUtil.getPhone(LoginActivity.this), pin)
+            NetworkHelper.getInstance(getString(R.string.base_url)).SignIn(PhoneUtil.getPhone(LoginActivity.this), pin)
                     .enqueue(new Callback<UserLogin>() {
                 @Override
                 public void onResponse(Call<UserLogin> call, Response<UserLogin> response) {
