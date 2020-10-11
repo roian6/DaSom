@@ -2,8 +2,10 @@ package com.example.dasom.fragment;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import com.example.dasom.MainActivity;
 import com.example.dasom.R;
 import com.example.dasom.databinding.FragmentMain2Binding;
 import com.example.dasom.receiver.AlarmReceiver;
@@ -35,6 +39,7 @@ public class Main2Fragment extends Fragment{
     private FragmentMain2Binding binding;
     private AlarmManager alarmManager;
     private Intent intent1;
+    private int hour,minute;
 
     @Override
     public void onAttach(@NotNull Context context) {
@@ -54,6 +59,14 @@ public class Main2Fragment extends Fragment{
         intent1 = new Intent(mContext,AlarmReceiver.class);
 
         binding.talkCycleChangingSpinner.setAdapter(arrayAdapter);
+
+        SharedPreferences pref = mContext.getSharedPreferences("alarm_time", Context.MODE_PRIVATE);
+        if (pref.getInt("alarm_time_hour_int", 0) != 0) {
+            hour = pref.getInt("alarm_time_hour_int", 0);
+            minute = pref.getInt("alarm_time_minute_int", 0);
+        }
+
+
 
         binding.talkCycleChangingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -129,5 +142,21 @@ public class Main2Fragment extends Fragment{
         }
 
     }
+
+    //buttonClick
+    public void timeChoose(View view){
+        TimePickerDialog timePickerDialog = new TimePickerDialog(mContext,listner,hour,minute,false);
+    }
+
+    TimePickerDialog.OnTimeSetListener listner = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            SharedPreferences pref = mContext.getSharedPreferences("alarm_time", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putInt("alarm_time_hour_int", hourOfDay);
+            editor.putInt("alarm_time_minute_int", minute);
+            editor.commit();
+        }
+    };
 
 }

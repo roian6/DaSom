@@ -9,7 +9,7 @@ import android.os.Build;
 import android.util.Log;
 
 public class AlarmReceiver extends BroadcastReceiver {
-    AlarmManager alarmManager;
+    private AlarmManager alarmManager;
     private int req;
 
     @Override
@@ -32,6 +32,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+1000,pendingIntent);
         }else{
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+1000,pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+100000000,pendingIntent);
         }
 
     }
