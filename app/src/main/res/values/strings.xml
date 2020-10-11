@@ -8,4 +8,14 @@
     <string name="error_voice_recognize">음성 인식 중 오류가 발생했습니다.</string>
     <string name="chat_intro_short">다솜이와 어떤 것을 할까요?</string>
     <string name="chat_what_to_write">오늘은 어떤 일들이 있었나요? \n일기에 남기고 싶은 일이 있나요?</string>
+
+    <string-array name="spinner_array">
+        <item>30분</item>
+        <item>1시간</item>
+        <item>2시간</item>
+        <item>4시간</item>
+        <item>6시간</item>
+        <item>12시간</item>
+    </string-array>
+
 </resources>

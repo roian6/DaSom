@@ -9,6 +9,9 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import com.example.dasom.api.NetworkHelper;
 import com.example.dasom.data.CheckId;
