@@ -1,6 +1,11 @@
 package com.example.dasom;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import org.junit.Test;
+
+import java.util.Calendar;
 
 import static org.junit.Assert.*;
 
@@ -13,5 +18,12 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
+    }
+    
+    @Test
+    public void whatTime(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
     }
 }
