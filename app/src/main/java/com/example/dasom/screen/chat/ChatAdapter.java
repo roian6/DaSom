@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dasom.databinding.RowChatReceiveBinding;
 import com.example.dasom.databinding.RowChatSendBinding;
+import com.example.dasom.model.ChatModel;
 
 import java.util.ArrayList;
 import java.util.List;

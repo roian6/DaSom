@@ -1,9 +1,10 @@
 package com.example.dasom.api;
 
 import com.example.dasom.screen.chat.ChatBody;
-import com.example.dasom.screen.splash.CheckId;
-import com.example.dasom.screen.register.UserJoin;
 import com.example.dasom.screen.login.UserLogin;
+import com.example.dasom.screen.main1.DiaryBody;
+import com.example.dasom.screen.register.UserJoin;
+import com.example.dasom.screen.splash.CheckId;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -35,13 +36,6 @@ public interface ApiService {
             @Query("id") String id
     );
 
-//    @POST("diary/chatbot")
-//    Call<ChatBody> sendChat(
-//            @Header("Content-Type") String contentType,
-//            @Body ChatModel chatModel
-//    );
-
-
     @POST("diary/chatbot")
     @FormUrlEncoded
     Call<ChatBody> sendChat(
@@ -49,5 +43,10 @@ public interface ApiService {
             @Field("date") String date,
             @Field("time") String time,
             @Field("text") String text
+    );
+
+    @GET("diary/get-all")
+    Call<DiaryBody> getAllDiary(
+            @Header("Authorization") String authorization
     );
 }

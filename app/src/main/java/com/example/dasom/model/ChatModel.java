@@ -1,4 +1,4 @@
-package com.example.dasom.screen.chat;
+package com.example.dasom.model;
 
 import com.example.dasom.screen.chat.ChatBody;
 
@@ -7,6 +7,7 @@ public class ChatModel {
     private String date;
     private String time;
     private String text;
+    private String location;
     private Boolean isMine;
 
     public ChatModel() {
@@ -19,10 +20,11 @@ public class ChatModel {
         isMine = true;
     }
 
-    public ChatModel(String date, String time, String text, Boolean isMine) {
+    public ChatModel(String date, String time, String text, String location, Boolean isMine) {
         this.date = date;
         this.time = time;
         this.text = text;
+        this.location = location;
         this.isMine = isMine;
     }
 
@@ -58,6 +60,14 @@ public class ChatModel {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Boolean getMine() {

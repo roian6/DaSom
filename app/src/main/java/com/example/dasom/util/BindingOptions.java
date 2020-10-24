@@ -1,14 +1,16 @@
 package com.example.dasom.util;
 
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.BindingConversion;
 import androidx.databinding.ObservableArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.dasom.screen.chat.ChatAdapter;
-import com.example.dasom.screen.chat.ChatModel;
+import com.example.dasom.model.ChatModel;
 
 public class BindingOptions {
 
@@ -22,10 +24,10 @@ public class BindingOptions {
         v.setVisibility(b ? View.VISIBLE : View.INVISIBLE);
     }
 
-    @BindingAdapter("chatItem")
-    public static void bindChatItem(RecyclerView recyclerView, ObservableArrayList<ChatModel> items) {
-        ChatAdapter adapter = (ChatAdapter) recyclerView.getAdapter();
-        if (adapter != null) adapter.setItem(items);
+    @BindingAdapter("bindImageLink")
+    public static void bindImageLink(ImageView view, String link) {
+        if (link == null || link.isEmpty()) return;
+        Glide.with(view).load(link).into(view);
     }
 
 }

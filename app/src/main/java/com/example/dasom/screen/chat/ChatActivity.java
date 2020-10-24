@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.dasom.R;
 import com.example.dasom.databinding.ActivityChatBinding;
+import com.example.dasom.model.ChatModel;
 import com.example.dasom.util.DateTimeUtil;
 import com.example.dasom.util.LinearLayoutManagerWrapper;
 import com.example.dasom.util.TokenCache;

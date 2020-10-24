@@ -1,7 +1,9 @@
 package com.example.dasom.screen.main2;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.dasom.R;
 import com.example.dasom.databinding.FragmentMain2Binding;
+import com.example.dasom.screen.login.LoginActivity;
+import com.example.dasom.util.TokenCache;
+import com.example.dasom.util.UserCache;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,6 +44,24 @@ public class Main2Fragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main2, container, false);
+
+        binding.diaryOut.setOnClickListener(v -> {
+            UserCache.clear(mContext);
+            TokenCache.clear(mContext);
+            startActivity(new Intent(mContext, LoginActivity.class));
+
+            Activity a = getActivity();
+            if(a!=null) a.finish();
+        });
+//        TODO: migrate logout from first tab
+//        binding.btnMain1Logout.setOnClickListener(view -> {
+//            UserCache.clear(mContext);
+//            TokenCache.clear(mContext);
+//            startActivity(new Intent(mContext, LoginActivity.class));
+//
+//            Activity a = getActivity();
+//            if(a!=null) a.finish();
+//        });
 
 
         binding.talkCycleChangingTv.setOnClickListener(new View.OnClickListener() {
