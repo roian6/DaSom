@@ -1,4 +1,4 @@
-package com.example.dasom.fragment;
+package com.example.dasom.screen.main1;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import com.example.dasom.LoginActivity;
+import com.example.dasom.screen.login.LoginActivity;
 import com.example.dasom.R;
 import com.example.dasom.databinding.FragmentMain1Binding;
 import com.example.dasom.util.TokenCache;

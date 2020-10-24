@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.example.dasom.model.ChatModel" />
+            type="com.example.dasom.screen.chat.ChatModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

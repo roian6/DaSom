@@ -1,10 +1,7 @@
-package com.example.dasom;
+package com.example.dasom.screen.login;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +10,9 @@ import androidx.databinding.DataBindingUtil;
 import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
 import com.andrognito.pinlockview.PinLockView;
+import com.example.dasom.screen.MainActivity;
+import com.example.dasom.R;
 import com.example.dasom.api.NetworkHelper;
-import com.example.dasom.data.UserLogin;
 import com.example.dasom.databinding.ActivityLoginBinding;
 import com.example.dasom.util.PhoneUtil;
 import com.example.dasom.util.TokenCache;

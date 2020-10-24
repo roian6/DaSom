@@ -1,4 +1,4 @@
-package com.example.dasom.adapter;
+package com.example.dasom.screen.chat;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dasom.databinding.RowChatReceiveBinding;
 import com.example.dasom.databinding.RowChatSendBinding;
-import com.example.dasom.model.ChatModel;
 
 import java.util.ArrayList;
 import java.util.List;

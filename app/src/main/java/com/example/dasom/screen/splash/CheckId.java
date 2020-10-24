@@ -1,12 +1,9 @@
-package com.example.dasom.data;
+package com.example.dasom.screen.splash;
 
-public class UserJoin {
-
+public class CheckId {
     private int status;
     private String message;
-    boolean success;
-
-    public UserJoin(){}
+    private boolean success;
 
     public int getStatus() {
         return status;
@@ -32,7 +29,7 @@ public class UserJoin {
         this.success = success;
     }
 
-    public UserJoin(int status, String message, String mes, boolean success) {
+    public CheckId(int status, String message, boolean success) {
         this.status = status;
         this.message = message;
         this.success = success;

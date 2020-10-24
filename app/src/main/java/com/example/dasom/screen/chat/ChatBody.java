@@ -1,4 +1,4 @@
-package com.example.dasom.data;
+package com.example.dasom.screen.chat;
 
 
 import retrofit2.http.Body;

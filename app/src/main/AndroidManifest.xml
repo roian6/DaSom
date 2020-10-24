@@ -17,16 +17,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".SignupActivity"
+        <activity android:name=".screen.register.SignupActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".LandingActivity"
+            android:name=".screen.onboard.LandingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChatActivity"
+            android:name=".screen.chat.ChatActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".screen.splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,13 +35,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".screen.login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name=".screen.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MaterialTheme" />
-        <receiver android:name=".receiver.AlarmReceiver"/>
+        <receiver android:name=".screen.main2.AlarmReceiver"/>
     </application>
 
 

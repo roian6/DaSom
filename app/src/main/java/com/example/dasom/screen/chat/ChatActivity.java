@@ -1,7 +1,6 @@
-package com.example.dasom;
+package com.example.dasom.screen.chat;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +8,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.dasom.adapter.ChatAdapter;
+import com.example.dasom.R;
 import com.example.dasom.databinding.ActivityChatBinding;
-import com.example.dasom.model.ChatModel;
+import com.example.dasom.util.DateTimeUtil;
 import com.example.dasom.util.LinearLayoutManagerWrapper;
 import com.example.dasom.util.TokenCache;
 

@@ -1,4 +1,4 @@
-package com.example.dasom;
+package com.example.dasom.screen.register;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,10 @@ import androidx.databinding.DataBindingUtil;
 import com.andrognito.pinlockview.IndicatorDots;
 import com.andrognito.pinlockview.PinLockListener;
 import com.andrognito.pinlockview.PinLockView;
+import com.example.dasom.R;
 import com.example.dasom.api.NetworkHelper;
-import com.example.dasom.data.UserJoin;
 import com.example.dasom.databinding.ActivitySignupBinding;
+import com.example.dasom.screen.login.LoginActivity;
 import com.example.dasom.util.PhoneUtil;
 
 import org.jetbrains.annotations.NotNull;

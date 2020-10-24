@@ -1,9 +1,9 @@
 package com.example.dasom.api;
 
-import com.example.dasom.data.ChatBody;
-import com.example.dasom.data.CheckId;
-import com.example.dasom.data.UserJoin;
-import com.example.dasom.data.UserLogin;
+import com.example.dasom.screen.chat.ChatBody;
+import com.example.dasom.screen.splash.CheckId;
+import com.example.dasom.screen.register.UserJoin;
+import com.example.dasom.screen.login.UserLogin;
 
 import retrofit2.Call;
 import retrofit2.http.Field;

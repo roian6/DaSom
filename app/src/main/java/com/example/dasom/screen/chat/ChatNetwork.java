@@ -1,10 +1,6 @@
-package com.example.dasom;
-
-import android.util.Log;
+package com.example.dasom.screen.chat;
 
 import com.example.dasom.api.NetworkHelper;
-import com.example.dasom.data.ChatBody;
-import com.example.dasom.model.ChatModel;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;

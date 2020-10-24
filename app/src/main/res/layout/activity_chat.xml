@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.example.dasom.ChatActivityViewModel" />
+            type="com.example.dasom.screen.chat.ChatActivityViewModel" />
 
         <variable
             name="clickHandler"
-            type="com.example.dasom.ChatActivity.ChatActivityClickHandler" />
+            type="com.example.dasom.screen.chat.ChatActivity.ChatActivityClickHandler" />
 
     </data>
 

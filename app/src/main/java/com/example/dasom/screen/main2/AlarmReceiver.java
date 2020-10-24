@@ -1,4 +1,4 @@
-package com.example.dasom.receiver;
+package com.example.dasom.screen.main2;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

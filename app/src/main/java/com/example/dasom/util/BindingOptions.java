@@ -7,8 +7,8 @@ import androidx.databinding.BindingConversion;
 import androidx.databinding.ObservableArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.dasom.adapter.ChatAdapter;
-import com.example.dasom.model.ChatModel;
+import com.example.dasom.screen.chat.ChatAdapter;
+import com.example.dasom.screen.chat.ChatModel;
 
 public class BindingOptions {
 

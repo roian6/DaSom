@@ -1,10 +1,8 @@
-package com.example.dasom;
+package com.example.dasom.screen.chat;
 
 import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.example.dasom.model.ChatModel;
 
 public class ChatActivityViewModel extends ViewModel {
 

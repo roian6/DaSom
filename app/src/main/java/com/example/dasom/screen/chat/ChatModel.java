@@ -1,7 +1,6 @@
-package com.example.dasom.model;
+package com.example.dasom.screen.chat;
 
-import com.example.dasom.data.ChatBody;
-import com.google.gson.annotations.SerializedName;
+import com.example.dasom.screen.chat.ChatBody;
 
 public class ChatModel {
 

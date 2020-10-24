@@ -1,4 +1,4 @@
-package com.example.dasom;
+package com.example.dasom.screen.splash;
 
 import android.Manifest;
 import android.content.Context;
@@ -13,8 +13,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import com.example.dasom.screen.onboard.LandingActivity;
+import com.example.dasom.screen.login.LoginActivity;
+import com.example.dasom.screen.MainActivity;
+import com.example.dasom.R;
+import com.example.dasom.screen.register.SignupActivity;
 import com.example.dasom.api.NetworkHelper;
-import com.example.dasom.data.CheckId;
 import com.example.dasom.util.PhoneUtil;
 import com.example.dasom.util.TokenCache;
 import com.example.dasom.util.UserCache;
@@ -24,10 +28,6 @@ import com.gun0912.tedpermission.TedPermission;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.dasom.fragment;
+package com.example.dasom.screen.onboard;
 
 import android.graphics.Color;
 import android.os.Bundle;

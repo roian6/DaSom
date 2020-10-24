@@ -1,4 +1,4 @@
-package com.example.dasom;
+package com.example.dasom.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.example.dasom;
+package com.example.dasom.screen.chat;
 
 import android.content.Context;
 import android.content.Intent;

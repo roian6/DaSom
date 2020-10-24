@@ -1,4 +1,4 @@
-package com.example.dasom;
+package com.example.dasom.screen;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -8,9 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.dasom.R;
 import com.example.dasom.databinding.ActivityMainBinding;
-import com.example.dasom.fragment.Main1Fragment;
-import com.example.dasom.fragment.Main2Fragment;
+import com.example.dasom.screen.main1.Main1Fragment;
+import com.example.dasom.screen.main2.Main2Fragment;
+import com.example.dasom.screen.chat.ChatActivity;
 
 public class MainActivity extends AppCompatActivity {
 

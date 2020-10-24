@@ -1,4 +1,4 @@
-package com.example.dasom;
+package com.example.dasom.screen.main2;
 
 import android.app.AlarmManager;
 import android.app.Dialog;
@@ -9,22 +9,17 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 
-import com.example.dasom.receiver.AlarmReceiver;
+import com.example.dasom.R;
 
 import java.util.Calendar;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 
 public class TimeDialog  {
 
@@ -43,7 +38,7 @@ public class TimeDialog  {
     public void callFunction() {
 
         // 커스텀 다이얼로그를 정의하기위해 Dialog클래스를 생성한다.
-        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context,R.array.spinner_array,android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context, R.array.spinner_array,android.R.layout.simple_spinner_dropdown_item);
         final Dialog dlg = new Dialog(context);
         // 액티비티의 타이틀바를 숨긴다.
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);

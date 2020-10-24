@@ -1,4 +1,4 @@
-package com.example.dasom;
+package com.example.dasom.screen.onboard;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,9 @@ import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.dasom.fragment.LandingFragment;
+import com.example.dasom.R;
+import com.example.dasom.screen.login.LoginActivity;
+import com.example.dasom.screen.register.SignupActivity;
 import com.example.dasom.util.SharedPreferenceUtil;
 import com.github.paolorotolo.appintro.AppIntro;
 
