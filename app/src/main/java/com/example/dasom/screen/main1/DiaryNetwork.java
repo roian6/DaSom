@@ -53,7 +53,6 @@ public class DiaryNetwork {
                             }
                         } else body = response.body();
 
-                        Log.d("baam", "onResponse: "+new Gson().toJson(body));
                         onDiarySuccessListener.onDiarySuccess(body.getData());
                     }
 

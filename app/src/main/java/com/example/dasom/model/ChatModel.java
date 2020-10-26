@@ -1,5 +1,7 @@
 package com.example.dasom.model;
 
+import android.net.Uri;
+
 import com.example.dasom.screen.chat.ChatBody;
 
 public class ChatModel {
@@ -9,6 +11,8 @@ public class ChatModel {
     private String text;
     private String location;
     private Boolean isMine;
+
+    private Uri imageUri;
 
     public ChatModel() {
     }
@@ -33,8 +37,9 @@ public class ChatModel {
         isMine = false;
     }
 
-    public ChatModel(String text, Boolean isMine){
+    public ChatModel(String text, Uri imageUri, Boolean isMine){
         this.text = text;
+        this.imageUri = imageUri;
         this.isMine = isMine;
     }
 
@@ -76,5 +81,13 @@ public class ChatModel {
 
     public void setMine(Boolean mine) {
         isMine = mine;
+    }
+
+    public Uri getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(Uri imageUri) {
+        this.imageUri = imageUri;
     }
 }
