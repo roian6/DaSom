@@ -7,120 +7,128 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 
 import com.example.dasom.R;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.MonthDay;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
-public class TimeDialog  {
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
-    private Calendar calendar;
+import static android.content.Context.ALARM_SERVICE;
+
+public class TimeDialog {
+
     private Context context;
-    private AlarmManager alarmManager;
-    private Intent intent1;
-    private int hour,minute;
     private Spinner spinner;
     private TimePicker timePicker;
     private Button button;
+    private Intent intent1;
+    private AlarmManager am;
+    private int year,month,day,hour, minute,req;
+    private long setTime;
+    private int[] integers;
+    private String cycle_time_string;
+
 
     public TimeDialog(Context context) {
         this.context = context;
     }
-    public void callFunction() {
+
+    public void callFunction(final TextView cycle_text){
 
         // 커스텀 다이얼로그를 정의하기위해 Dialog클래스를 생성한다.
-        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context, R.array.spinner_array,android.R.layout.simple_spinner_dropdown_item);
-        final Dialog dlg = new Dialog(context);
+        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context, R.array.spinner_array, android.R.layout.simple_spinner_dropdown_item);
+        final Dialog dlg = new Dialog(context, R.style.Theme_AppCompat_Light_Dialog);
         // 액티비티의 타이틀바를 숨긴다.
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         dlg.setContentView(R.layout.dialog_timeset);
         dlg.show();
 
-        alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
-        intent1 = new Intent(context, AlarmReceiver.class);
-
         spinner = dlg.findViewById(R.id.talk_cycle_changing_spinner);
         timePicker = dlg.findViewById(R.id.set_time_picker);
         button = dlg.findViewById(R.id.dialog_out);
+        SharedPreferences pref = context.getSharedPreferences("talk_cycle_time",context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
 
-
+        intent1 = new Intent(context,AlarmReceiver.class);
+        am = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        SharedPreferences pref =context.getSharedPreferences("alarm_time", Context.MODE_PRIVATE);
-
+        integers = context.getResources().getIntArray(R.array.request_array);
 
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                AlarmPaused(context);
                 hour = timePicker.getHour();
                 minute = timePicker.getMinute();
-                SharedPreferences.Editor editor = pref.edit();
-                editor.putInt("alarm_time_hour_int",hour);
-                editor.putInt("alarm_time_minute_int",minute);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    year = Year.now().getValue();
+                    month = YearMonth.now().getMonthValue();
+                    day = MonthDay.now().getDayOfMonth();
+                    LocalDateTime ldt = LocalDateTime.of(year,month,day,hour,minute);
+                    ZonedDateTime zdt = ldt.atZone(ZoneId.of("Asia/Seoul"));
+                    setTime = zdt.toInstant().toEpochMilli();
+                }
+                intent1.putExtra("req",req);
+                testAlarm(setTime,context,req);
+                if(req==30){
+                    cycle_time_string = req +"분 >";
+                }else if (req>30){
+                    cycle_time_string = req/60 + "시간 >";
+                }else{
+                    req = 30;
+                    cycle_time_string = req +"분 >";
+                }
+                editor.putString("talk_cycle_time",cycle_time_string);
                 editor.commit();
+                cycle_text.setText(cycle_time_string);
                 dlg.dismiss();
 
             }
         });
-
-
-
-        if (pref.getInt("alarm_time_hour_int", 0) != 0) {
-            hour = pref.getInt("alarm_time_hour_int", 0);
-            minute = pref.getInt("alarm_time_minute_int", 0);
-        }
-
-        //일단 현재시간 가져오는거 여기에 hour minute 갱신하여 넣어주기(TimePicker)
-        calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-
-
-        Log.e(" ",System.currentTimeMillis()+"");
-
         //spinner adapter 연결
         spinner.setAdapter(arrayAdapter);
-
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
                     case 0:
-                        AlarmPaused(context);
-                        CreateAlarm(context,10,intent1);
+                        req = integers[0];
                         break;
                     case 1:
-                        AlarmPaused(context);
-                        CreateAlarm(context,20,intent1);
+                        req = integers[1];
                         break;
                     case 2:
-                        AlarmPaused(context);
-                        CreateAlarm(context,30,intent1);
+                        req = integers[2];
                         break;
                     case 3:
-                        AlarmPaused(context);
-                        CreateAlarm(context,40,intent1);
+                        req = integers[3];
                         break;
                     case 4:
-                        AlarmPaused(context);
-                        CreateAlarm(context,50,intent1);
+                        req = integers[4];
                         break;
-                    case 6:
-                        AlarmPaused(context);
-                        CreateAlarm(context,60,intent1);
+                    case 5:
+                        req = integers[5];
                         break;
                 }
             }
@@ -131,41 +139,40 @@ public class TimeDialog  {
             }
         });
 
-
     }
 
-    public void CreateAlarm(Context context,int req, Intent intent){
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,req,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+    public void testAlarm(long setTime,Context context,int req){
+        Intent intent = new Intent(context,AlarmReceiver.class);
         intent.putExtra("req",req);
-        context.sendBroadcast(intent);
-        setAlarm(pendingIntent,alarmManager);
+        PendingIntent sender = PendingIntent.getBroadcast(context, req, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        setTime += 60000*req;
+        AlarmManager am = (AlarmManager)context.getSystemService(ALARM_SERVICE);
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,setTime,sender);
+        }else{
+            am.setExact(AlarmManager.RTC_WAKEUP,setTime,sender);
+        }
     }
+
+
+
 
     public void AlarmPaused(Context context){
-        AlarmPauseUtil(10,context);
-        AlarmPauseUtil(20,context);
-        AlarmPauseUtil(30,context);
-        AlarmPauseUtil(40,context);
-        AlarmPauseUtil(50,context);
-        AlarmPauseUtil(60,context);
 
+        AlarmPauseUtil(integers[0],context);
+        AlarmPauseUtil(integers[1],context);
+        AlarmPauseUtil(integers[2],context);
+        AlarmPauseUtil(integers[3],context);
+        AlarmPauseUtil(integers[4],context);
+        AlarmPauseUtil(integers[5],context);
     }
+
     public void AlarmPauseUtil(int req,Context context){
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,req,intent1,PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmPause(pendingIntent);
 
     }
     public void AlarmPause(PendingIntent pendingIntent){
-        alarmManager.cancel(pendingIntent);
+        am.cancel(pendingIntent);
     }
-
-    public void setAlarm(PendingIntent pendingIntent, AlarmManager alarmManager){
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis()*20*60*1000,pendingIntent);
-        }else{
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis()*20*60*1000,pendingIntent);
-        }
-
-    }
-
 }
