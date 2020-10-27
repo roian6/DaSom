@@ -1,5 +1,8 @@
 package com.example.dasom.screen.chat;
 
+import android.net.Uri;
+import android.widget.ImageView;
+
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.MutableLiveData;
@@ -25,6 +28,12 @@ public class ChatActivityViewModel extends ViewModel {
 
     public MutableLiveData<String> message = new MutableLiveData<>("");
 
+    @BindingAdapter("bindImageUri")
+    public static void bindImageUri(ImageView v, Uri uri) {
+        if (uri != null) v.setImageURI(uri);
+    }
+
+    public MutableLiveData<Uri> image = new MutableLiveData<>();
 
 
 }

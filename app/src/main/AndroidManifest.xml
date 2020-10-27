@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="false"
@@ -16,9 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".screen.register.SignupActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".screen.diary.DiaryActivity"></activity>
+        <activity
+            android:name=".screen.register.SignupActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".screen.onboard.LandingActivity"
             android:screenOrientation="portrait" />
@@ -42,8 +43,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/MaterialTheme" />
 
-        <receiver android:name=".screen.main2.AlarmReceiver"/>
-
+        <receiver android:name=".screen.main2.AlarmReceiver" />
     </application>
 
 
