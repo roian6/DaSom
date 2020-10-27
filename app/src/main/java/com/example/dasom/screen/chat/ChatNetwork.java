@@ -1,13 +1,20 @@
 package com.example.dasom.screen.chat;
 
+import android.net.Uri;
+import android.util.Log;
+
 import com.example.dasom.api.NetworkHelper;
 import com.example.dasom.model.ChatModel;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.io.IOException;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,12 +39,23 @@ public class ChatNetwork {
         this.token = token;
     }
 
-    public void sendChat(ChatModel chat, OnChatSuccessListener s, OnChatFailedListener e) {
+    public void sendChat(ChatModel chat, Uri photo, OnChatSuccessListener s, OnChatFailedListener e) {
         onChatSuccessListener = s;
         onChatFailedListener = e;
 
-        NetworkHelper.getInstance(baseUrl).sendChat("Bearer " + token,
-                chat.getDate(), chat.getTime(), chat.getText()).enqueue(new Callback<ChatBody>() {
+        RequestBody dateBody = RequestBody.create(MediaType.parse("multipart/form-data"), chat.getDate());
+        RequestBody timeBody = RequestBody.create(MediaType.parse("multipart/form-data"), chat.getTime());
+        RequestBody textBody = RequestBody.create(MediaType.parse("multipart/form-data"), chat.getText());
+        MultipartBody.Part photoBody = null;
+
+        if (photo != null) {
+            File photoFile = new File(photo.getPath());
+            RequestBody photoFileBody = RequestBody.create(MediaType.parse("multipart/form-data"), photoFile);
+            photoBody = MultipartBody.Part.createFormData("photo", photoFile.getName(), photoFileBody);
+        }
+
+        NetworkHelper.getInstance(baseUrl).sendChat("Bearer " + token, photoBody,
+                dateBody, timeBody, textBody).enqueue(new Callback<ChatBody>() {
             @Override
             public void onResponse(@NotNull Call<ChatBody> call, @NotNull Response<ChatBody> response) {
                 ChatBody body;
@@ -45,8 +63,9 @@ public class ChatNetwork {
                     try {
                         Gson gson = new Gson();
                         body = gson.fromJson(response.errorBody().string(), ChatBody.class);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    } catch (Exception e) {
+                        Log.d("baam", "onResponse: "+response.toString());
+                        e.printStackTrace();
                         return;
                     }
                 } else body = response.body();

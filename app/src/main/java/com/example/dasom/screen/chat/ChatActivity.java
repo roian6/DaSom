@@ -1,5 +1,6 @@
 package com.example.dasom.screen.chat;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -14,6 +15,8 @@ import com.example.dasom.model.ChatModel;
 import com.example.dasom.util.DateTimeUtil;
 import com.example.dasom.util.LinearLayoutManagerWrapper;
 import com.example.dasom.util.TokenCache;
+
+import gun0912.tedbottompicker.TedBottomPicker;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -57,7 +60,7 @@ public class ChatActivity extends AppCompatActivity {
                 },
                 e -> Toast.makeText(this, R.string.error_voice_recognize, Toast.LENGTH_SHORT).show());
 
-        viewModel.chatModels.add(new ChatModel(getString(R.string.chat_intro), false));
+        viewModel.chatModels.add(new ChatModel(getString(R.string.chat_intro), null, false));
         viewModel.isVoiceSet.observe(this, enabled -> {
             if (enabled) voiceHelper.startTTS(getString(R.string.chat_intro_short));
         });
@@ -66,13 +69,20 @@ public class ChatActivity extends AppCompatActivity {
 
     public class ChatActivityClickHandler {
         public void btnMiddleClick() {
-            if (viewModel.onResult.getValue()) sendChat(viewModel.message.getValue());
+            if (viewModel.onResult.getValue())
+                sendChat(viewModel.message.getValue(), viewModel.image.getValue());
             else startListening();
         }
 
         public void btnRetryClick() {
             viewModel.onResult.setValue(false);
             startListening();
+        }
+
+        public void btnImageClick() {
+            if (viewModel.image.getValue() == null)
+                TedBottomPicker.with(ChatActivity.this).show(uri -> viewModel.image.setValue(uri));
+            else viewModel.image.setValue(null);
         }
 
         public void btnStopClick() {
@@ -90,14 +100,15 @@ public class ChatActivity extends AppCompatActivity {
         viewModel.isListening.setValue(false);
     }
 
-    private void sendChat(String message) {
-        viewModel.chatModels.add(new ChatModel(viewModel.message.getValue(), true));
+    private void sendChat(String message, Uri photo) {
+        viewModel.chatModels.add(new ChatModel(viewModel.message.getValue(), photo, true));
         binding.recyclerView.smoothScrollToPosition(viewModel.chatModels.size() - 1);
 
         viewModel.message.setValue("");
         viewModel.onResult.setValue(false);
+        viewModel.image.setValue(null);
 
-        chatNetwork.sendChat(createChatModel(message), body -> {
+        chatNetwork.sendChat(createChatModel(message), photo, body -> {
             viewModel.chatModels.add(new ChatModel(body));
             binding.recyclerView.smoothScrollToPosition(viewModel.chatModels.size() - 1);
             voiceHelper.startTTS(body.getText(), () -> performAction(body.getAction()));
