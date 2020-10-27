@@ -43,15 +43,21 @@
             app:layout_constraintVertical_bias="1.0"
             app:pinLength="4" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <Button
+            android:fontFamily="@font/apple_sd_gothic_neo_r"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/colorPrimary"
+            android:background="@drawable/round_box"
             android:id="@+id/btn_login_debug"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:src="@drawable/ic_baseline_engineering_24"
+            android:text="혹시 테스트 중인가요? (스킵하기)"
             android:tint="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
