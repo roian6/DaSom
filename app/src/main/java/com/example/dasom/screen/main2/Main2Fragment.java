@@ -2,6 +2,7 @@ package com.example.dasom.screen.main2;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ public class Main2Fragment extends Fragment{
     private Context mContext;
     private FragmentMain2Binding binding;
     private AlarmManager alarmManager;
-    private int hour,minute;
+    private int hour,minute,cycle_time;
 
     @Override
     public void onAttach(@NotNull Context context) {
@@ -44,15 +45,16 @@ public class Main2Fragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main2, container, false);
+        // logout
+//        binding.diaryOut.setOnClickListener(v -> {
+//            UserCache.clear(mContext);
+//            TokenCache.clear(mContext);
+//            startActivity(new Intent(mContext, LoginActivity.class));
+//
+//            Activity a = getActivity();
+//            if(a!=null) a.finish();
+//        });
 
-        binding.diaryOut.setOnClickListener(v -> {
-            UserCache.clear(mContext);
-            TokenCache.clear(mContext);
-            startActivity(new Intent(mContext, LoginActivity.class));
-
-            Activity a = getActivity();
-            if(a!=null) a.finish();
-        });
 //        TODO: migrate logout from first tab
 //        binding.btnMain1Logout.setOnClickListener(view -> {
 //            UserCache.clear(mContext);
@@ -67,11 +69,9 @@ public class Main2Fragment extends Fragment{
         binding.talkCycleChangingTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("asd","asd123");
                 TimeDialog timeDialog = new TimeDialog(mContext);
 
                 timeDialog.callFunction();
-
             }
         });
         return binding.getRoot();
