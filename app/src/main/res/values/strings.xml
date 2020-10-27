@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">DaSom</string>
 
-    <string name="base_url">https://dasomi.taemin.dev/</string>
+    <string name="base_url">https://api.taemin.dev/dasomi/</string>
 
     <string name="chat_intro">다솜이와 어떤 것을 할까요? 이렇게 이야기해 보세요.\n\n- 일기 쓸래\n- 어제 쓴 일기 보여줘\n- 그저께 3시에 내가 뭘 했지?</string>
     <string name="error_chat_voice">음성 대화를 설정하는 중 오류가 발생했습니다.</string>

@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".screen.diary.DiaryActivity"></activity>
+        <activity android:name=".screen.diary.DiaryActivity"/>
         <activity
             android:name=".screen.register.SignupActivity"
             android:screenOrientation="portrait" />
@@ -44,6 +44,7 @@
             android:theme="@style/MaterialTheme" />
 
         <receiver android:name=".screen.main2.AlarmReceiver" />
+
     </application>
 
 

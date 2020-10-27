@@ -5,15 +5,15 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 
@@ -25,7 +25,9 @@ import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Calendar;
+
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 import static android.content.Context.ALARM_SERVICE;
 
@@ -40,16 +42,14 @@ public class TimeDialog {
     private int year,month,day,hour, minute,req;
     private long setTime;
     private int[] integers;
-    private Bundle bundle;
-    private Main2Fragment fragInfo = new Main2Fragment();
-    public int cycle_time2;
+    private String cycle_time_string;
 
 
     public TimeDialog(Context context) {
         this.context = context;
     }
 
-    public void callFunction() {
+    public void callFunction(final TextView cycle_text){
 
         // 커스텀 다이얼로그를 정의하기위해 Dialog클래스를 생성한다.
         ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context, R.array.spinner_array, android.R.layout.simple_spinner_dropdown_item);
@@ -63,6 +63,8 @@ public class TimeDialog {
         spinner = dlg.findViewById(R.id.talk_cycle_changing_spinner);
         timePicker = dlg.findViewById(R.id.set_time_picker);
         button = dlg.findViewById(R.id.dialog_out);
+        SharedPreferences pref = context.getSharedPreferences("talk_cycle_time",context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
 
         intent1 = new Intent(context,AlarmReceiver.class);
         am = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
@@ -88,6 +90,17 @@ public class TimeDialog {
                 }
                 intent1.putExtra("req",req);
                 testAlarm(setTime,context,req);
+                if(req==30){
+                    cycle_time_string = req +"분 >";
+                }else if (req>30){
+                    cycle_time_string = req/60 + "시간 >";
+                }else{
+                    req = 30;
+                    cycle_time_string = req +"분 >";
+                }
+                editor.putString("talk_cycle_time",cycle_time_string);
+                editor.commit();
+                cycle_text.setText(cycle_time_string);
                 dlg.dismiss();
 
             }

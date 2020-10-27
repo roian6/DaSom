@@ -39,7 +39,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         if (req<0){
             req = 30;
         }
-        Log.e("receiver",req+" ");
 
         createNotificationChannel(context);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "asd")

@@ -8,22 +8,21 @@
         <variable
             name="until_now"
             type="String" />
+
         <variable
             name="when_create"
             type="String" />
 
         <variable
-            name="font_size"
-            type="int" />
-        <variable
-            name="talk_cycle"
-            type="int" />
+            name="phone_number"
+            type="String" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        style="@style/AppTheme">
 
         <TextView
             android:id="@+id/more_top_tv"
@@ -175,9 +174,53 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="20sp"
                 android:layout_marginRight="15dp"
-                android:text= "@{talk_cycle+`시간 &gt;`,default = `30 분 &gt;`}"
+                android:text= "30분 >"
                 android:fontFamily="@font/apple_sd_gothic_neo_r"
                 android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/update_info_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/talk_cycle"
+                app:layout_constraintLeft_toLeftOf="@id/talk_cycle"
+                android:layout_marginTop="25dp"
+                android:textSize="20sp"
+                android:text= "정보 변경"
+                android:fontFamily="@font/apple_sd_gothic_neo_r"
+                android:textColor="@color/black"/>
+
+
+            <TextView
+                android:id="@+id/update_info_dialog_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@id/update_info_tv"
+                app:layout_constraintBottom_toBottomOf="@id/update_info_tv"
+                app:layout_constraintRight_toRightOf="parent"
+                android:textSize="20sp"
+                android:layout_marginRight="15dp"
+                android:text= ">"
+                android:fontFamily="@font/apple_sd_gothic_neo_r"
+                android:textColor="@color/black"/>
+
+            <Button
+                android:id="@+id/btn_main_logout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/update_info_dialog_bt"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintVertical_bias="0.6"
+                android:background="@drawable/round_box"
+                android:textSize="15sp"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/apple_sd_gothic_neo_h"
+                android:text="로그아웃"
+                />
+
 
 
 
