@@ -38,6 +38,8 @@ public class Main2Fragment extends Fragment{
         return new Main2Fragment();
     }
 
+    //i want commit
+
     private Context mContext;
     private FragmentMain2Binding binding;
     private SharedPreferences preferences;
