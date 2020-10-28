@@ -44,7 +44,7 @@ public class Main2Fragment extends Fragment {
     private SharedPreferences preferences;
     private static final String BASE_URL = "https://api.taemin.dev/dasomi/";
     private String token;
-    private SettingData body;
+    private UpdateData body;
 
     @Override
     public void onAttach(@NotNull Context context) {
@@ -91,13 +91,13 @@ public class Main2Fragment extends Fragment {
     }
 
     public void updateInfo(String url, String token) {
-        NetworkHelper.getInstance(url).updateInfo("Bearer " + token).enqueue(new Callback<SettingData>() {
+        NetworkHelper.getInstance(url).updateInfo("Bearer " + token).enqueue(new Callback<UpdateData>() {
             @Override
-            public void onResponse(Call<SettingData> call, Response<SettingData> response) {
+            public void onResponse(Call<UpdateData> call, Response<UpdateData> response) {
                 if (response.code() != 200) {
                     try {
                         Gson gson = new Gson();
-                        body = gson.fromJson(response.errorBody().string(), SettingData.class);
+                        body = gson.fromJson(response.errorBody().string(), UpdateData.class);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                         return;
@@ -105,11 +105,9 @@ public class Main2Fragment extends Fragment {
                 } else {
                     body = response.body();
                 }
-                Log.d("baam", "onResponse: " + body);
-                Log.d("baam", "onResponse: " + new Gson().toJson(body));
                 try {
-                    binding.setWhenCreate(body.getData().getDataLength() + "");
-                    binding.setUntilNow(body.getData().getLastDataCount() + "");
+                    binding.setWhenCreate(body.getDataLength() + "");
+                    binding.setUntilNow(body.getLastDataCount()+"");
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                     binding.setWhenCreate("0");
@@ -119,7 +117,7 @@ public class Main2Fragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<SettingData> call, Throwable t) {
+            public void onFailure(Call<UpdateData> call, Throwable t) {
 
             }
         });
