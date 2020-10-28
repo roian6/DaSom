@@ -41,6 +41,8 @@ public class SignupActivity extends AppCompatActivity {
         mPinLockView.attachIndicatorDots(mIndicatorDots);
         mPinLockView.setPinLockListener(mPinLockListener);
 
+        binding.btnSignupDebug.setOnClickListener(v -> signUp("010-1111-1111", "1234"));
+
     }
 
     private PinLockListener mPinLockListener = new PinLockListener() {
@@ -59,21 +61,7 @@ public class SignupActivity extends AppCompatActivity {
                 return;
             }
 
-            NetworkHelper.getInstance(getString(R.string.base_url)).SignUp(PhoneUtil.getPhone(SignupActivity.this), pw)
-                    .enqueue(new Callback<UserJoin>() {
-                        @Override
-                        public void onResponse(@NotNull Call<UserJoin> call, @NotNull Response<UserJoin> response) {
-                            if (response.isSuccessful()) {
-                                startActivity(new Intent(SignupActivity.this, LoginActivity.class));
-                                finish();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NotNull Call<UserJoin> call, @NotNull Throwable t) {
-                            t.printStackTrace();
-                        }
-                    });
+            signUp(PhoneUtil.getPhone(SignupActivity.this), pw);
 
         }
 
@@ -88,7 +76,25 @@ public class SignupActivity extends AppCompatActivity {
         }
     };
 
-    private void wrongPIN(){
+    private void signUp(String phone, String pw) {
+        NetworkHelper.getInstance(getString(R.string.base_url)).SignUp(phone, pw)
+                .enqueue(new Callback<UserJoin>() {
+                    @Override
+                    public void onResponse(@NotNull Call<UserJoin> call, @NotNull Response<UserJoin> response) {
+                        if (response.isSuccessful()) {
+                            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NotNull Call<UserJoin> call, @NotNull Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+    }
+
+    private void wrongPIN() {
         binding.setText("PIN 번호를 다시 입력해주세요.");
         mPinLockView.resetPinLockView();
     }

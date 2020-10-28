@@ -40,10 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         mPinLockView.attachIndicatorDots(mIndicatorDots);
         mPinLockView.setPinLockListener(mPinLockListener);
 
-        binding.btnLoginDebug.setOnClickListener(v -> {
-            //kinda debug stuff
-            signIn("010-3511-9295", "1234");
-        });
+        binding.btnLoginDebug.setOnClickListener(v -> signIn("010-1111-1111", "1234"));
 
     }
 

@@ -15,6 +15,15 @@ import java.util.List;
 public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryHolder> {
 
     private List<ChatModel> list;
+    private OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(ChatModel item);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     public DiaryAdapter() {
         list = new ArrayList<>();
@@ -42,7 +51,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryHolder>
         notifyDataSetChanged();
     }
 
-    static class DiaryHolder extends RecyclerView.ViewHolder {
+    class DiaryHolder extends RecyclerView.ViewHolder {
 
         private RowDiaryBinding binding;
 
@@ -53,6 +62,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryHolder>
 
         void bind(ChatModel item) {
             binding.setItem(item);
+            binding.getRoot().setOnClickListener(v -> onItemClickListener.onItemClick(item));
         }
     }
 }

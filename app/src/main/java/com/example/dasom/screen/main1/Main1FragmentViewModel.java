@@ -2,6 +2,7 @@ package com.example.dasom.screen.main1;
 
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,4 +22,6 @@ public class Main1FragmentViewModel extends ViewModel {
     public Main1FragmentViewModel(){
         diaryItems = new ObservableArrayList<>();
     }
+
+    public MutableLiveData<Boolean> isLoaded = new MutableLiveData<>(false);
 }

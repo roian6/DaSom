@@ -9,16 +9,12 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import com.example.dasom.screen.onboard.LandingActivity;
-import com.example.dasom.screen.login.LoginActivity;
-import com.example.dasom.screen.MainActivity;
 import com.example.dasom.R;
-import com.example.dasom.screen.register.SignupActivity;
 import com.example.dasom.api.NetworkHelper;
+import com.example.dasom.screen.MainActivity;
+import com.example.dasom.screen.login.LoginActivity;
+import com.example.dasom.screen.register.SignupActivity;
 import com.example.dasom.util.PhoneUtil;
 import com.example.dasom.util.TokenCache;
 import com.example.dasom.util.UserCache;
@@ -28,6 +24,10 @@ import com.gun0912.tedpermission.TedPermission;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -75,19 +75,10 @@ public class SplashActivity extends AppCompatActivity {
         NetworkHelper.getInstance(getString(R.string.base_url)).CheckID(phoneNumber).enqueue(new Callback<CheckId>() {
             @Override
             public void onResponse(@NotNull Call<CheckId> call, @NotNull Response<CheckId> response) {
-                boolean isLandingShown = getSharedPreferences(context).getBoolean("landing_shown", false);
-                //isLandingShown = false; //remove this line, to show landing page only once
-
                 boolean isRegistered = response.isSuccessful();
 
-                if (isLandingShown)
-                    startActivity(new Intent(SplashActivity.this,
-                            isRegistered ? LoginActivity.class : SignupActivity.class));
-                else {
-                    Intent intent = new Intent(SplashActivity.this, LandingActivity.class);
-                    intent.putExtra("is_registered", isRegistered);
-                    startActivity(intent);
-                }
+                startActivity(new Intent(SplashActivity.this,
+                        isRegistered ? LoginActivity.class : SignupActivity.class));
 
                 finish();
             }

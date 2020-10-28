@@ -1,10 +1,12 @@
 package com.example.dasom.model;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.example.dasom.screen.chat.ChatBody;
 
-public class ChatModel {
+public class ChatModel implements Parcelable {
 
     private String date;
     private String time;
@@ -42,6 +44,28 @@ public class ChatModel {
         this.imageUri = imageUri;
         this.isMine = isMine;
     }
+
+    protected ChatModel(Parcel in) {
+        date = in.readString();
+        time = in.readString();
+        text = in.readString();
+        location = in.readString();
+        byte tmpIsMine = in.readByte();
+        isMine = tmpIsMine == 0 ? null : tmpIsMine == 1;
+        imageUri = in.readParcelable(Uri.class.getClassLoader());
+    }
+
+    public static final Creator<ChatModel> CREATOR = new Creator<ChatModel>() {
+        @Override
+        public ChatModel createFromParcel(Parcel in) {
+            return new ChatModel(in);
+        }
+
+        @Override
+        public ChatModel[] newArray(int size) {
+            return new ChatModel[size];
+        }
+    };
 
     public String getDate() {
         return date;
@@ -89,5 +113,20 @@ public class ChatModel {
 
     public void setImageUri(Uri imageUri) {
         this.imageUri = imageUri;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(date);
+        dest.writeString(time);
+        dest.writeString(text);
+        dest.writeString(location);
+        dest.writeByte((byte) (isMine == null ? 0 : isMine ? 1 : 2));
+        dest.writeParcelable(imageUri, flags);
     }
 }

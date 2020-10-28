@@ -1,7 +1,9 @@
 package com.example.dasom.screen.chat;
 
 
-import retrofit2.http.Body;
+import com.example.dasom.model.ChatModel;
+
+import java.util.List;
 
 public class ChatBody {
 
@@ -10,21 +12,23 @@ public class ChatBody {
     private String text;
     private String message;
     private Boolean success;
+    private List<ChatModel> data = null;
 
     public ChatBody() {
     }
 
-    public ChatBody(String message, Boolean success){
+    public ChatBody(String message, Boolean success) {
         this.message = message;
         this.success = success;
     }
 
-    public ChatBody(Integer status, String action, String text, String message, Boolean success) {
+    public ChatBody(Integer status, String action, String text, String message, Boolean success, List<ChatModel> data) {
         this.status = status;
         this.action = action;
         this.text = text;
         this.message = message;
         this.success = success;
+        this.data = data;
     }
 
     public Integer getStatus() {
@@ -67,5 +71,12 @@ public class ChatBody {
         this.success = success;
     }
 
+    public List<ChatModel> getData() {
+        return data;
+    }
+
+    public void setData(List<ChatModel> data) {
+        this.data = data;
+    }
 }
 

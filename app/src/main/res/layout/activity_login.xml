@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:src="@drawable/ic_baseline_engineering_24"
-            android:text="혹시 테스트 중인가요? (스킵하기)"
+            android:text="가상 기기에서 테스트 중인가요? (스킵하기)"
             android:tint="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

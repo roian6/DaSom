@@ -1,5 +1,6 @@
 package com.example.dasom.screen.chat;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -12,9 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.dasom.R;
 import com.example.dasom.databinding.ActivityChatBinding;
 import com.example.dasom.model.ChatModel;
+import com.example.dasom.screen.diary.DiaryInfoActivity;
 import com.example.dasom.util.DateTimeUtil;
 import com.example.dasom.util.LinearLayoutManagerWrapper;
 import com.example.dasom.util.TokenCache;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import gun0912.tedbottompicker.TedBottomPicker;
 
@@ -58,7 +63,10 @@ public class ChatActivity extends AppCompatActivity {
                     viewModel.message.setValue(result);
                     viewModel.onResult.setValue(true);
                 },
-                e -> Toast.makeText(this, R.string.error_voice_recognize, Toast.LENGTH_SHORT).show());
+                e -> {
+                    Toast.makeText(this, R.string.error_voice_recognize, Toast.LENGTH_SHORT).show();
+                    voiceHelper.startTTS(getString(R.string.voice_recognize_retry));
+                });
 
         viewModel.chatModels.add(new ChatModel(getString(R.string.chat_intro), null, false));
         viewModel.isVoiceSet.observe(this, enabled -> {
@@ -111,7 +119,7 @@ public class ChatActivity extends AppCompatActivity {
         chatNetwork.sendChat(createChatModel(message), photo, body -> {
             viewModel.chatModels.add(new ChatModel(body));
             binding.recyclerView.smoothScrollToPosition(viewModel.chatModels.size() - 1);
-            voiceHelper.startTTS(body.getText(), () -> performAction(body.getAction()));
+            voiceHelper.startTTS(body.getText(), () -> performAction(body.getAction(), body.getData()));
         }, errorMsg -> Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show());
     }
 
@@ -119,16 +127,25 @@ public class ChatActivity extends AppCompatActivity {
         return new ChatModel(DateTimeUtil.getDate(), DateTimeUtil.getTime(), message);
     }
 
-    private void performAction(String action) {
+    private void performAction(String action, List<ChatModel> diaryList) {
         runOnUiThread(() -> {
             switch (action) {
                 case "start":
                     break;
                 case "read":
+                    if (diaryList == null) return;
+                    Intent intent = new Intent(ChatActivity.this, DiaryInfoActivity.class);
+                    Bundle bundle = new Bundle();
+
+                    ArrayList<ChatModel> chatModels = new ArrayList<>(diaryList);
+                    bundle.putParcelableArrayList("diaryList", chatModels);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                     break;
                 case "continue":
                     break;
                 case "stop":
+                    finish();
                     break;
             }
         });

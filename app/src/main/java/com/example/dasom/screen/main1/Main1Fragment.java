@@ -1,5 +1,6 @@
 package com.example.dasom.screen.main1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.dasom.R;
 import com.example.dasom.databinding.FragmentMain1Binding;
 import com.example.dasom.model.ChatModel;
+import com.example.dasom.screen.diary.DiaryInfoActivity;
 import com.example.dasom.util.LinearLayoutManagerWrapper;
 import com.example.dasom.util.TokenCache;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Main1Fragment extends Fragment {
@@ -43,7 +47,17 @@ public class Main1Fragment extends Fragment {
 
         binding.recyclerMain1.setLayoutManager(new LinearLayoutManagerWrapper(
                 requireContext(), LinearLayoutManager.VERTICAL, false));
-        binding.recyclerMain1.setAdapter(new DiaryAdapter());
+
+        DiaryAdapter adapter = new DiaryAdapter();
+        adapter.setOnItemClickListener(item -> {
+            Intent intent = new Intent(requireContext(), DiaryInfoActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("diaryList", new ArrayList<>(Collections.singletonList(item)));
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
+
+        binding.recyclerMain1.setAdapter(adapter);
 
         diaryNetwork = new DiaryNetwork(getString(R.string.base_url), TokenCache.getToken(requireContext()));
 
@@ -58,6 +72,7 @@ public class Main1Fragment extends Fragment {
         //*sad callback noise*
         diaryNetwork.getAllDiary(
                 dataList -> {
+                    viewModel.isLoaded.setValue(true);
                     if (dataList == null) return;
                     for (DiaryData data : dataList) {
                         List<ChatModel> chatModels = data.getData();
