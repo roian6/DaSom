@@ -17,6 +17,7 @@
         android:background="@color/colorPrimary"
         tools:context=".screen.MainActivity">
 
+
         <com.andrognito.pinlockview.IndicatorDots
             android:id="@+id/indicator_dots"
             android:layout_width="wrap_content"
@@ -26,34 +27,60 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/pin_lock_view"
+            app:layout_constraintVertical_bias="0.0" />
 
         <com.andrognito.pinlockview.PinLockView
             android:id="@+id/pin_lock_view"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="40dp"
             android:background="#fff"
-            app:keypadButtonSize="72dp"
+            app:flow_horizontalBias="0.5"
+            app:keypadButtonSize="100dp"
             app:keypadTextColor="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toTopOf="@+id/txt_login_forgot"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/indicator_dots"
             app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintWidth_percent="0.8"
             app:pinLength="4" />
 
-        <Button
+        <TextView
+            android:id="@+id/txt_login_forgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/apple_sd_gothic_neo_r"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@color/colorPrimary"
-            android:background="@drawable/round_box"
+            android:padding="12dp"
+            android:text="앗, 혹시 핀 번호가 기억나지 않나요?"
+            android:textAlignment="center"
+            android:textColor="@color/materialGray7"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_login_debug"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
             android:id="@+id/btn_login_debug"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:background="@drawable/round_box"
+            android:backgroundTint="@color/colorPrimary"
+            android:fontFamily="@font/apple_sd_gothic_neo_r"
             android:src="@drawable/ic_baseline_engineering_24"
             android:text="가상 기기에서 테스트 중인가요? (스킵하기)"
+            android:textColor="@android:color/white"
             android:tint="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

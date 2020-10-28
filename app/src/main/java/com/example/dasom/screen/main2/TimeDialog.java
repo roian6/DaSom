@@ -26,9 +26,6 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
-
 import static android.content.Context.ALARM_SERVICE;
 
 public class TimeDialog {
@@ -57,7 +54,7 @@ public class TimeDialog {
         // 액티비티의 타이틀바를 숨긴다.
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        dlg.setContentView(R.layout.dialog_timeset);
+        dlg.setContentView(R.layout.dialog_time_set);
         dlg.show();
 
         spinner = dlg.findViewById(R.id.talk_cycle_changing_spinner);

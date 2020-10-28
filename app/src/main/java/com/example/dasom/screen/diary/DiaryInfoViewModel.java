@@ -13,11 +13,18 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class DiaryInfoViewModel extends ViewModel {
 
-    public interface OnPlayBtnClickListener{
+    public interface OnPlayBtnClickListener {
         void play(String text);
     }
 
-    public OnPlayBtnClickListener onPlayBtnClick = text -> {};
+    public OnPlayBtnClickListener onPlayBtnClick = text -> {
+    };
+
+    public void setOnPlayBtnClick(OnPlayBtnClickListener listener) {
+        this.onPlayBtnClick = listener;
+    }
+
+    public MutableLiveData<Boolean> isPlaying = new MutableLiveData<>(false);
 
     public ObservableArrayList<ChatModel> diaryList = new ObservableArrayList<>();
     public ObservableArrayList<Fragment> fragments = new ObservableArrayList<>();
@@ -29,7 +36,4 @@ public class DiaryInfoViewModel extends ViewModel {
             t.view.setFocusable(false);
         }).attach();
     }
-
-    public MutableLiveData<Integer> currentIndex = new MutableLiveData<>(0);
-
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -41,6 +42,14 @@ public class LoginActivity extends AppCompatActivity {
         mPinLockView.setPinLockListener(mPinLockListener);
 
         binding.btnLoginDebug.setOnClickListener(v -> signIn("010-1111-1111", "1234"));
+
+        binding.txtLoginForgot.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("핀 번호 분실").setMessage("010-8699-8406으로 전화하시면 도움을 드릴 수 있어요! \n추후 핀 번호 찾기 기능이 추가될 예정이에요.");
+
+            builder.setPositiveButton("확인", (dialog, which) -> {
+            }).show();
+        });
 
     }
 

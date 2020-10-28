@@ -44,7 +44,9 @@ public class DiaryInfoFragment extends Fragment {
 
     public class DiaryInfoFragmentClickHandler {
         public void onPlayBtnClick() {
-            viewModel.onPlayBtnClick.play(model.getText());
+            if (!viewModel.isPlaying.getValue())
+                viewModel.onPlayBtnClick.play(model.getText());
+            else viewModel.isPlaying.setValue(false);
         }
     }
 }

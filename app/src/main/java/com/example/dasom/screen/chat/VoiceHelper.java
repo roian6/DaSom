@@ -62,7 +62,7 @@ public class VoiceHelper {
 
             @Override
             public void onDone(String utteranceId) {
-                onFinish.run();
+                if (onFinish != null) onFinish.run();
             }
 
             @Override

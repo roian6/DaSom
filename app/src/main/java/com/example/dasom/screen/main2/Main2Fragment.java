@@ -41,7 +41,6 @@ public class Main2Fragment extends Fragment {
 
     private Context mContext;
     private FragmentMain2Binding binding;
-    private SharedPreferences preferences;
     private static final String BASE_URL = "https://api.taemin.dev/dasomi/";
     private String token;
     private UpdateData body;
@@ -106,12 +105,12 @@ public class Main2Fragment extends Fragment {
                     body = response.body();
                 }
                 try {
-                    binding.setWhenCreate(body.getDataLength() + "");
-                    binding.setUntilNow(body.getLastDataCount()+"");
+                    binding.setDiaryCount(body.getDataLength() + "");
+                    binding.setFromLastWrite(body.getLastDataCount()+"");
                 } catch (NullPointerException e) {
                     e.printStackTrace();
-                    binding.setWhenCreate("0");
-                    binding.setUntilNow("0");
+                    binding.setDiaryCount("0");
+                    binding.setFromLastWrite("0");
                 }
 
             }

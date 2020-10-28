@@ -42,7 +42,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         createNotificationChannel(context);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "asd")
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.app_typo)
                 .setContentTitle(context.getResources().getText(R.string.title))
                 .setContentText(context.getResources().getText(R.string.description))
                 .setStyle(new NotificationCompat.BigTextStyle()

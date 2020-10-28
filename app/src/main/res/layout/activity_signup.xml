@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="text"
             type="String" />
@@ -12,68 +13,78 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".screen.register.SignupActivity"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        tools:context=".screen.register.SignupActivity">
 
         <TextView
             android:id="@+id/sign_up_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            android:fontFamily="@font/apple_sd_gothic_neo_r"
+            android:text="@{text}"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.2"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:textColor="#fff"
-            android:text="@{text}"
-            android:textSize="20sp"
-            />
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2" />
 
 
         <com.andrognito.pinlockview.IndicatorDots
             android:id="@+id/indicator_dots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/sign_up_tv"
+            android:layout_marginTop="40dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="40dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/sign_up_tv" />
 
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/pin_lock_view"
+            app:layout_constraintVertical_bias="0.0" />
 
         <com.andrognito.pinlockview.PinLockView
             android:id="@+id/pin_lock_view"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="40dp"
-            android:paddingLeft="15dp"
             android:background="#fff"
+            android:paddingStart="15dp"
+            android:paddingTop="30dp"
+            android:paddingEnd="15dp"
             app:keypadButtonSize="100dp"
             app:keypadTextColor="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toTopOf="@+id/btn_signup_debug"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/indicator_dots"
             app:layout_constraintVertical_bias="1.0"
-            android:paddingTop="30dp"
+            app:layout_constraintWidth_percent="0.8"
             app:pinLength="4" />
 
         <Button
-            android:fontFamily="@font/apple_sd_gothic_neo_r"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@color/colorPrimary"
-            android:background="@drawable/round_box"
             android:id="@+id/btn_signup_debug"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:background="@drawable/round_box"
+            android:backgroundTint="@color/colorPrimary"
+            android:fontFamily="@font/apple_sd_gothic_neo_r"
             android:src="@drawable/ic_baseline_engineering_24"
             android:text="가상 기기에서 테스트 중인가요? (스킵하기)"
+            android:textColor="@android:color/white"
             android:tint="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -81,8 +92,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    
-    
-    
-    
+
+
 </layout>

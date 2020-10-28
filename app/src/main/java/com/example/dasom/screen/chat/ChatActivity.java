@@ -15,6 +15,7 @@ import com.example.dasom.databinding.ActivityChatBinding;
 import com.example.dasom.model.ChatModel;
 import com.example.dasom.screen.diary.DiaryInfoActivity;
 import com.example.dasom.util.DateTimeUtil;
+import com.example.dasom.util.KeyboardUtil;
 import com.example.dasom.util.LinearLayoutManagerWrapper;
 import com.example.dasom.util.TokenCache;
 
@@ -65,29 +66,39 @@ public class ChatActivity extends AppCompatActivity {
                 },
                 e -> {
                     Toast.makeText(this, R.string.error_voice_recognize, Toast.LENGTH_SHORT).show();
-                    voiceHelper.startTTS(getString(R.string.voice_recognize_retry));
+                    voiceHelper.startTTS(getString(R.string.voice_recognize_retry), null);
                 });
 
         viewModel.chatModels.add(new ChatModel(getString(R.string.chat_intro), null, false));
         viewModel.isVoiceSet.observe(this, enabled -> {
-            if (enabled) voiceHelper.startTTS(getString(R.string.chat_intro_short));
+            if (enabled) voiceHelper.startTTS(getString(R.string.chat_intro_short), null);
         });
 
     }
 
     public class ChatActivityClickHandler {
+        public void btnBackClick() {
+            finish();
+        }
+
         public void btnMiddleClick() {
+            KeyboardUtil.hideKeyboard(ChatActivity.this);
             if (viewModel.onResult.getValue())
                 sendChat(viewModel.message.getValue(), viewModel.image.getValue());
-            else startListening();
+            else {
+                viewModel.onResult.setValue(false);
+                startListening();
+            }
         }
 
         public void btnRetryClick() {
+            KeyboardUtil.hideKeyboard(ChatActivity.this);
             viewModel.onResult.setValue(false);
             startListening();
         }
 
         public void btnImageClick() {
+            KeyboardUtil.hideKeyboard(ChatActivity.this);
             if (viewModel.image.getValue() == null)
                 TedBottomPicker.with(ChatActivity.this).show(uri -> viewModel.image.setValue(uri));
             else viewModel.image.setValue(null);

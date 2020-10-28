@@ -33,7 +33,7 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_signup);
-        binding.setText("PIN 번호를 입력해주세요.");
+        binding.setText("다솜을 사용하려면, \n먼저 4자리의 숫자(PIN 번호)를 입력해야 해요.");
 
         IndicatorDots mIndicatorDots = (IndicatorDots) findViewById(R.id.indicator_dots);
         mPinLockView = (PinLockView) findViewById(R.id.pin_lock_view);
@@ -56,7 +56,7 @@ public class SignupActivity extends AppCompatActivity {
             }
 
             if (!pw.equals(pin)) {
-                Toast.makeText(SignupActivity.this, "PIN이 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, "앞서 입력한 숫자와 일치하지 않아요.", Toast.LENGTH_SHORT).show();
                 wrongPIN();
                 return;
             }
@@ -95,7 +95,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void wrongPIN() {
-        binding.setText("PIN 번호를 다시 입력해주세요.");
+        binding.setText("확인을 위해,\n4자리의 숫자(PIN 번호)를 다시 입력해주세요.");
         mPinLockView.resetPinLockView();
     }
 }

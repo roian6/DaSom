@@ -1,7 +1,10 @@
 package com.example.dasom.screen.diary;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import androidx.annotation.LongDef;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,11 +20,14 @@ public class DiaryInfoActivity extends AppCompatActivity {
     private ActivityDiaryInfoBinding binding;
     private DiaryInfoViewModel viewModel;
 
+    private TTSHelper ttsHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_diary_info);
         binding.setLifecycleOwner(this);
+        binding.setClickHandler(new DiaryInfoActivityClickHandler());
 
         viewModel = new ViewModelProvider(this).get(DiaryInfoViewModel.class);
         binding.setViewModel(viewModel);
@@ -36,5 +42,23 @@ public class DiaryInfoActivity extends AppCompatActivity {
         DialogInfoPagerAdapter pagerAdapter = new DialogInfoPagerAdapter(this, viewModel.fragments);
         binding.pagerDiaryInfo.setAdapter(pagerAdapter);
 
+        ttsHelper = new TTSHelper(this);
+        ttsHelper.setupTTSHelper(isSuccessful -> {
+            if (!isSuccessful) return;
+            viewModel.setOnPlayBtnClick(text -> {
+                viewModel.isPlaying.setValue(true);
+                ttsHelper.startTTS(text, () -> runOnUiThread(() -> viewModel.isPlaying.setValue(false)));
+            });
+        });
+
+        viewModel.isPlaying.observe(this, b -> {
+            if (!b) ttsHelper.stopTTS();
+        });
+    }
+
+    public class DiaryInfoActivityClickHandler {
+        public void btnBackClick() {
+            finish();
+        }
     }
 }

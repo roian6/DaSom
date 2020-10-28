@@ -2,12 +2,9 @@ package com.example.dasom.screen.main2;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.dasom.R;
 import com.example.dasom.api.NetworkHelper;
@@ -33,7 +30,7 @@ public class UpdateEmergencyDialog  {
         final Dialog dlg = new Dialog(context);
         // 액티비티의 타이틀바를 숨긴다.
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dlg.setContentView(R.layout.update_info_dialog);
+        dlg.setContentView(R.layout.dialog_update_info);
 
         dlg.show();
 
