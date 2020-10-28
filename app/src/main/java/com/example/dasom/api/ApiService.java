@@ -3,14 +3,11 @@ package com.example.dasom.api;
 import com.example.dasom.screen.chat.ChatBody;
 import com.example.dasom.screen.login.UserLogin;
 import com.example.dasom.screen.main1.DiaryBody;
-import com.example.dasom.screen.main2.CountData;
-import com.example.dasom.screen.main2.SettingData;
+import com.example.dasom.screen.main2.UpdateData;
 import com.example.dasom.screen.main2.UpdateInfo;
 import com.example.dasom.screen.main2.UpdateInfoValue;
 import com.example.dasom.screen.register.UserJoin;
 import com.example.dasom.screen.splash.CheckId;
-
-import java.util.ArrayList;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -69,7 +66,7 @@ public interface ApiService {
     );
 
     @GET("diary/get-when-to-write")
-    Call<SettingData> updateInfo(
+    Call<UpdateData> updateInfo(
             @Header("Authorization") String authorization
     );
 }
